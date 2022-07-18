@@ -8,4 +8,4 @@ Clojure ライブラリ Ring の Wiki を邦訳し、Codelabs 形式で公開し
 
 ドキュメントの更新に協力していただくる方は、以下のドキュメントへの編集リクエストをよろしくお願いします。
 
-
+[Draft](https://docs.google.com/document/d/1-kEDxRG72uPrXNuajEZM7YQ6-qiSe6SyuMV74rczBik/)
