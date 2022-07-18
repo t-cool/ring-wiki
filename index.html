@@ -110,8 +110,7 @@
 <p><code>・File</code> 参照されるファイルの内容がクライアントに送信されます。</p>
 <p><code>・InputStream</code> ストリームの内容がクライアントに送信されます。ストリームを使い切ると、ストリームは閉じられます。</p>
 <h2 is-upgraded><strong>ミドルウェア</strong></h2>
-<p>ミドルウェアとは、ハンドラーに追加機能を与える上位の関数です。ミドルウェア関数の第一引数にはハンドラを指定し、その戻り値には元のハンドラを呼び出す新しいハンドラ関数を指定します。</p>
-<p>簡単な例を挙げてみましょう。</p>
+<p>ミドルウェアとは、ハンドラーに追加機能を与える上位の関数です。ミドルウェア関数の第 1 引数にはハンドラを指定し、その戻り値には元のハンドラを呼び出す新しいハンドラ関数を指定します。簡単な例を見てみましょう。</p>
 <pre>(defn wrap-content-type [handler content-type]
   (fn [request]
     (let [response (handler request)]
@@ -131,19 +130,19 @@
 <pre>(def app
   (wrap-content-type handler &#34;text/html&#34;))</pre>
 <p>これは、ハンドラ <code>handler</code> に <code>wrap-content-type</code> ミドルウェアを適用したもので、新しいハンドラ <code>app</code> を定義しています。</p>
-<p>スレッディングマクロ( → )を使うと、ミドルウェアを連鎖させることができます。</p>
+<p>スレッディングマクロ( <code>→</code> )を使うと、ミドルウェアを連鎖させることができます。</p>
 <pre>(def app
   (-&gt; handler
       (wrap-content-type &#34;text/html&#34;)
       (wrap-keyword-params)
       (wrap-params)))</pre>
-<p>ミドルウェアはRingで頻繁に使用され、生のHTTPリクエストを処理する以外の機能の多くを提供するために使用されています。パラメータ、セッション、ファイルのアップロードなどは、すべてRing標準ライブラリのミドルウェアによって処理されます。</p>
+<p>ミドルウェアは Ring で頻繁に使用され、生の HTTP リクエストを処理する以外の機能の多くを提供するために使用されています。パラメータ、セッション、ファイルのアップロードなどは、すべて Ring 標準ライブラリのミドルウェアによって処理されます。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="レスポンスの作成" duration="0">
-        <p>Ringのレスポンス・マップは手動で作成することもできますが（<a href="https://github.com/t-cool/ring/wiki/Concepts" target="_blank">Concepts</a>を参照）、 [ring.util.response][1] 名前空間には、この作業を容易にする便利な関数が多数含まれています。</p>
+        <p>Ring のレスポンス・マップは手動で作成することもできますが、<code>ring.util.response</code> 名前空間には、この作業を容易にする便利な関数が多数含まれています。</p>
 <p>response 関数は、基本的な &#34;200 OK&#34; レスポンスを作成します。</p>
 <pre>(response &#34;Hello World&#34;)
 
@@ -172,23 +171,23 @@
 ; =&gt; {:status 200
     :headers {}
     :body (io/input-stream (io/resource &#34;public/readme.html&#34;))}</pre>
-<p>これらの関数やその他の詳細については、 <a href="http://ring-clojure.github.com/ring/ring.util.response.html" target="_blank">ring.util.response API documentation</a> を参照してください。</p>
+<p>これらの関数やその他の詳細については、 <a href="https://ring-clojure.github.io/ring/ring.util.response.html" target="_blank">ring.util.response API documentation</a> を参照してください。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="静的リソース" duration="0">
-        <p>Webアプリケーションでは、画像やスタイルシートなどの静的コンテンツを提供する必要があります。Ringはこれを実現するために2つのミドルウェア関数を提供しています。</p>
-<p>一つは <code>wrap-file</code> です。これは、ローカルファイルシステム上のディレクトリから静的コンテンツを提供します。</p>
+        <p>Web アプリケーションでは、画像やスタイルシートなどの静的コンテンツを提供する必要があります。Ring はこれを実現するために 2 つのミドルウェア関数を提供しています。</p>
+<p> 1 つは <code>wrap-file</code> です。これは、ローカルファイルシステム上のディレクトリから静的コンテンツを提供します。</p>
 <pre>(use &#39;ring.middleware.file)
 (def app
   (wrap-file your-handler &#34;/var/www/public&#34;))</pre>
 <p>これは、与えられたルートパスのディレクトリに、リクエストに応答するための静的ファイルがあるかどうかをチェックし、そのようなファイルが存在しない場合は、ラップされたハンドラにリクエストをプロキシするようにハンドラをラップします。</p>
-<p>もう一つは <code>wrap-resource</code> です。これは、JVMのクラスパスから静的コンテンツを提供します。</p>
+<p>もう 1 つは <code>wrap-resource</code> です。これは、JVMのクラスパスから静的コンテンツを提供します。</p>
 <pre>(use &#39;ring.middleware.resource)
 (def app
   (wrap-resource your-handler &#34;public&#34;))</pre>
-<p>LeiningenのようなClojureビルドツールを使用している場合、プロジェクトのソースファイル以外のリソースは、resourcesディレクトリに保存されます。このディレクトリにあるファイルは、自動的にjarファイルやwarファイルにインクルードされます。</p>
+<p>Leiningen のような Clojure ビルドツールを使用している場合、プロジェクトのソースファイル以外のリソースは、resources ディレクトリに保存されます。このディレクトリにあるファイルは、自動的に jar ファイルや war ファイルにインクルードされます。</p>
 <p>つまり、上記の例では、<code>resources/public</code> ディレクトリに置かれたファイルは、静的ファイルとして提供されます。</p>
 <p>多くの場合、<code>wrap-file</code> や <code>wrap-resource</code> を他のミドルウェアと組み合わせたいと思うでしょう。通常は <code>wrap-content-type</code> と <code>wrap-not-modified</code> です。</p>
 <pre>(use &#39;ring.middleware.resource
@@ -200,25 +199,25 @@
       (wrap-resource &#34;public&#34;)
       (wrap-content-type)
       (wrap-not-modified))</pre>
-<p>wrap-content-typeミドルウェアは、ファイルの拡張子に基づいてコンテントタイプを選択します。例えば、hello.txtというファイルのコンテントタイプは、text/plainとなります。</p>
-<p>wrap-not-modifiedミドルウェアは、レスポンスのLast-Modifiedヘッダと、リクエストのIf-Modified-Sinceヘッダを照合します。これにより、クライアントが既にキャッシュされたリソースをダウンロードする必要がなくなり、帯域幅を節約することができます。</p>
-<p>この追加のミドルウェアは、wrap-resourceやwrap-file関数をラップして（つまり、後から）来る必要があることに注意してください。</p>
+<p><code>wrap-content-type</code> ミドルウェアは、ファイルの拡張子に基づいてコンテントタイプを選択します。例えば、hello.txt というファイルのコンテントタイプは、text/plain となります。</p>
+<p>wrap-not-modified ミドルウェアは、レスポンスの Last-Modified ヘッダと、リクエストのIf-Modified-Since ヘッダを照合します。これにより、クライアントが既にキャッシュされたリソースをダウンロードする必要がなくなり、帯域幅を節約することができます。</p>
+<p>この追加のミドルウェアは、wrap-resource や wrap-file 関数をラップして（つまり、後から）来る必要があることに注意してください。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="コンテンツタイプ" duration="0">
-        <p>wrap-content-typeミドルウェアを使って、URIのファイル拡張子に基づいてContent-Typeヘッダを追加することができます。</p>
+        <p>wrap-content-type ミドルウェアを使って、URI のファイル拡張子に基づいてContent-Type ヘッダを追加することができます。</p>
 <pre>(use &#39;ring.middleware.content-type)
  
 (def app
   (wrap-content-type your-handler))</pre>
 <p>つまり、ユーザーが以下のスタイルシートにアクセスした場合、</p>
 <pre>http://example.com/style/screen.css</pre>
-<p>content-typeミドルウェアは、次のようなヘッダーを追加します。</p>
+<p>content-type ミドルウェアは、次のようなヘッダーを追加します。</p>
 <pre>Content-Type: text/css</pre>
 <p>デフォルトのコンテンツタイプのマッピングは、 <a href="https://github.com/ring-clojure/ring/blob/master/ring-core/src/ring/util/mime_type.clj" target="_blank">ring-core/src/ring/util/mime_types.clj</a> で見ることができます。</p>
-<p>また、:mime-typesオプションを使って、カスタムのmime-typesを追加することもできます。</p>
+<p>また、:mime-types オプションを使って、カスタムの mime-types を追加することもできます。</p>
 <pre>(use &#39;ring.middleware.content-type)
  
 (def app
@@ -230,22 +229,22 @@
       </google-codelab-step>
     
       <google-codelab-step label="パラメータ" duration="0">
-        <p>URLエンコードされたパラメータは、ブラウザがウェブアプリケーションに値を渡す主な手段です。ユーザーがフォームを送信する際に送信され、通常はページネーションなどに使用されます。</p>
-<p>Ringは低レベルのインターフェースであるため、適切なミドルウェアを適用しない限り、パラメーターには対応していません。</p>
+        <p>URL エンコードされたパラメータは、ブラウザがウェブアプリケーションに値を渡す主な手段です。ユーザーがフォームを送信する際に送信され、通常はページネーションなどに使用されます。</p>
+<p>Ring は低レベルのインターフェースであるため、適切なミドルウェアを適用しない限り、パラメーターには対応していません。</p>
 <pre>(use &#39;ring.middleware.params)
 (def app
   (wrap-params your-handler))</pre>
-<p>wrap-paramsミドルウェアは、URLエンコードされたパラメータを、クエリ文字列またはHTTPリクエストボディからサポートします。</p>
+<p>wrap-params ミドルウェアは、URL エンコードされたパラメータを、クエリ文字列または HTTP リクエストボディからサポートします。</p>
 <p>ファイルのアップロードはサポートしていません。これはミドルウェアの <code>wrap-multipart-params</code> で処理されます。マルチパートフォームの詳細については、ファイルアップロードのセクションを参照してください。</p>
-<p><code>wrap-params</code> 関数はオプションのマップを受け取ります．現在、認識できるキーは1つだけです。</p>
+<p><code>wrap-params</code> 関数はオプションのマップを受け取ります．現在、認識できるキーは 1 つだけです。</p>
 <ul>
-<li><code>:encoding</code> - パラメータの文字エンコーディングを指定します。デフォルトでは、リクエストの 文字エンコーディングが設定されていない場合は、UTF-8がデフォルトです。 セットされます。</li>
+<li><code>:encoding</code> パラメータの文字エンコーディングを指定します。デフォルトでは、リクエストの 文字エンコーディングが設定されていない場合は、UTF-8 がデフォルトです。 セットされます。</li>
 </ul>
 <p>パラメーターミドルウェアは、ハンドラーに適用されると、リクエストマップに3つの新しいキーを追加します。</p>
 <ul>
-<li><code>:query-params</code> - クエリ文字列のパラメータのマップ</li>
-<li><code>:form-params</code> - 送信されたフォームデータに含まれるパラメータのマップ</li>
-<li><code>:params</code> - すべてのパラメータをマージしたマップ</li>
+<li><code>:query-params</code> クエリ文字列のパラメータのマップ</li>
+<li><code>:form-params</code> 送信されたフォームデータに含まれるパラメータのマップ</li>
+<li><code>:params</code> すべてのパラメータをマージしたマップ</li>
 </ul>
 <p>例えば、以下のようなリクエストがあったとします。</p>
 <pre>{:request-method :get
@@ -258,9 +257,9 @@
  :query-params {&#34;q&#34; &#34;clojure&#34;}
  :form-params {}
  :params {&#34;q&#34; &#34;clojure&#34;}}</pre>
-<p>通常は、 <code>:params</code> キーのみを使用しますが、他のキーは、クエリ文字列で渡されるパラメータと、POSTされたHTMLフォームで渡されるパラメータを区別する必要がある場合に備えてあります。</p>
+<p>通常は、 <code>:params</code> キーのみを使用しますが、他のキーは、クエリ文字列で渡されるパラメータと、POST された HTML フォームで渡されるパラメータを区別する必要がある場合に備えてあります。</p>
 <p>パラメータのキーは文字列で、値は、パラメータ名に関連する値が1つしかない場合は文字列、同じ名前の名前と値のペアが複数ある場合はベクターとなります。</p>
-<p>例えば、次のようなURLがあったとします。</p>
+<p>例えば、次のような URL があったとします。</p>
 <pre>http://example.com/demo?x=hello</pre>
 <p>そうすると、パラメータマップは次のようになります。</p>
 <pre>{&#34;x&#34; &#34;hello&#34;}</pre>
@@ -273,35 +272,35 @@
       </google-codelab-step>
     
       <google-codelab-step label="クッキー" duration="0">
-        <p>Ringハンドラにクッキーサポートを追加するには、ミドルウェアの <code>wrap-cookies</code> でラップする必要があります。</p>
+        <p>Ring ハンドラにクッキーサポートを追加するには、ミドルウェアの <code>wrap-cookies</code> でラップする必要があります。</p>
 <pre>(use &#39;ring.middleware.cookies)
 (def app
   (wrap-cookies your-handler))</pre>
 <p>これにより、リクエストマップに <code>:cookies</code> キーが追加され、次のようなクッキーのマップが含まれるようになります。</p>
 <pre>{&#34;session_id&#34; {:value &#34;session-id-hash&#34;}}</pre>
-<p>Cookieを設定するには、:cookieキーをレスポンス・マップに追加します。</p>
+<p>Cookie を設定するには、<code>:cookie</code> キーをレスポンス・マップに追加します。</p>
 <pre>{:status 200
  :headers {}
  :cookies {&#34;session_id&#34; {:value &#34;session-id-hash&#34;}}
  :body &#34;Setting a cookie.&#34;}</pre>
-<p>Cookieの値を設定するだけでなく、追加の属性を設定することもできます。</p>
+<p>Cookie の値を設定するだけでなく、追加の属性を設定することもできます。</p>
 <ul>
-<li><code>:domain</code>-Cookieを特定のドメインに制限します。</li>
-<li><code>:path</code>-Cookieを特定のパスに制限します。</li>
-<li><code>:secure</code>-trueの場合、CookieをHTTPS URLに制限します。</li>
-<li><code>:http-only</code>-trueの場合、CookieをHTTPに制限します(例えばJavaScriptでアクセスできない)。</li>
-<li><code>:max-age</code>-Cookieの有効期限が切れるまでの秒数</li>
-<li><code>:expires</code>-Cookieの有効期限が切れる特定の日時</li>
-<li><code>:same-site</code>-Cookieをクロスサイト要求で送信するかどうかを決定するために、<code>:strict</code>、<code>:lax</code>、または:noneを指定します。</li>
+<li><code>:domain</code> Cookieを特定のドメインに制限します。</li>
+<li><code>:path</code> Cookieを特定のパスに制限します。</li>
+<li><code>:secure</code> trueの場合、CookieをHTTPS URLに制限します。</li>
+<li><code>:http-only</code> trueの場合、CookieをHTTPに制限します(例えばJavaScriptでアクセスできない)。</li>
+<li><code>:max-age</code> Cookieの有効期限が切れるまでの秒数</li>
+<li><code>:expires</code> Cookieの有効期限が切れる特定の日時</li>
+<li><code>:same-site</code> Cookieをクロスサイト要求で送信するかどうかを決定するために、<code>:strict</code>、<code>:lax</code>、または <code>:none</code> を指定します。</li>
 </ul>
-<p>ですから、1時間で期限切れになる安全なクッキーが欲しいなら、次のようにします。</p>
+<p>ですから、1 時間で期限切れになる安全なクッキーが欲しいなら、次のようにします。</p>
 <pre>{&#34;secret&#34; {:value &#34;foobar&#34;, :secure true, :max-age 3600}}</pre>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="セッション" duration="0">
-        <p>Ringのセッションは、可能な限り機能的であることを目指しているため、想像していたものとは少し異なります。</p>
+        <p>Ring のセッションは、可能な限り機能的であることを目指しているため、想像していたものとは少し異なります。</p>
 <p>セッションデータは、リクエストマップの <code>:session</code> キーで渡されます。次の例では、セッションから現在のユーザー名を出力しています。</p>
 <pre>(use &#39;ring.middleware.session
      &#39;ring.util.response)
@@ -325,25 +324,25 @@
 <pre>(defn handler [request]
   (-&gt; (response &#34;Session identifier recreated&#34;)
       (assoc :session (vary-meta (:session request) assoc :recreate true))))</pre>
-<p>セッションクッキーがユーザーのブラウザ上に存在する時間をコントロールしたい場合がよくあります。セッションクッキーの属性を変更するには、:cookie-attrsオプションを使います。</p>
+<p>セッションクッキーがユーザーのブラウザ上に存在する時間をコントロールしたい場合がよくあります。セッションクッキーの属性を変更するには、<code>:cookie-attrs</code> オプションを使います。</p>
 <pre>(def app
   (wrap-session handler {:cookie-attrs {:max-age 3600}}))</pre>
 <p>この場合、クッキーの最大寿命は3600秒（1時間）に設定されています。</p>
-<p>また、HTTPSで保護されたサイトのセッション・クッキーがHTTPで漏洩しないようにするためにも使用できます。</p>
+<p>また、HTTPS で保護されたサイトのセッション・クッキーが HTTP で漏洩しないようにするためにも使用できます。</p>
 <pre>(def app
   (wrap-session handler {:cookie-attrs {:secure true}}))</pre>
 <h2 is-upgraded><strong>Session Stores</strong></h2>
-<p>セッションデータは、セッションストアに保存されます。Ringには2つのストアがあります。</p>
+<p>セッションデータは、セッションストアに保存されます。Ring には2つのストアがあります。</p>
 <ul>
-<li><code>ring.middleware.session.memory/memory-store</code> - メモリ内にセッションを保存します。</li>
-<li><code>ring.middleware.session.cookie/cookie-store</code> - クッキーで暗号化されたセッションを保存します。</li>
+<li><code>ring.middleware.session.memory/memory-store</code> メモリ内にセッションを保存します。</li>
+<li><code>ring.middleware.session.cookie/cookie-store</code> クッキーで暗号化されたセッションを保存します。</li>
 </ul>
-<p>デフォルトでは、Ringはセッションデータをメモリ上に保存しますが、:storeオプションで上書きすることができます。</p>
+<p>デフォルトでは、Ring はセッションデータをメモリ上に保存しますが、<code>:store</code> オプションで上書きすることができます。</p>
 <pre>(use &#39;ring.middleware.session.cookie)
  
 (def app
   (wrap-session handler {:store (cookie-store {:key &#34;a 16-byte secret&#34;})})</pre>
-<p>ring.middleware.session.store/SessionStoreプロトコルを実装することで、独自のセッションストアを書くことができます。</p>
+<p><code>ring.middleware.session.store/SessionStore</code> プロトコルを実装することで、独自のセッションストアを書くことができます。</p>
 <pre>(use &#39;ring.middleware.session.store)
  
 (deftype CustomStore []
@@ -357,19 +356,19 @@
   (delete-session [_ key]
     (delete-data key)
     nil))</pre>
-<p>セッションの書き込み時に、新しいセッションの場合はキーがnilになることに注意してください。セッションストアはこれを想定して、新しいランダムなキーを生成する必要があります。そうしないと、悪意のあるユーザーが他の人のセッションデータにアクセスできてしまうからです。</p>
+<p>セッションの書き込み時に、新しいセッションの場合はキーが <code>nil</code> になることに注意してください。セッションストアはこれを想定して、新しいランダムなキーを生成する必要があります。そうしないと、悪意のあるユーザーが他の人のセッションデータにアクセスできてしまうからです。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="ファイルのアップロード" duration="0">
-        <p>Webサイトにファイルをアップロードするには、マルチパートのフォームを処理する必要がありますが、Ringは <code>wrap-multipart-params</code> というミドルウェアでこれを提供しています。</p>
+        <p>Web サイトにファイルをアップロードするには、マルチパートのフォームを処理する必要がありますが、Ring は <code>wrap-multipart-params</code> というミドルウェアでこれを提供しています。</p>
 <pre>(wrap-multipart-params handler)
 (wrap-multipart-params handler options)</pre>
 <p>このミドルウェア機能のオプションは</p>
 <ul>
-<li>:encoding(エンコーディング) パラメータの文字エンコーディングを指定します。wrap-params の同じオプションと同じ働きをします。 オプションと同じ働きをします。</li>
-<li><code>:store</code> (ストア) アップロードされたファイルを保存するために使用する関数です。Ringには、2つのストア Ringに含まれています。</li>
+<li><code>:encoding</code> パラメータの文字エンコーディングを指定します。<code>wrap-params</code> の同じオプションと同じ働きをします。 オプションと同じ働きをします。</li>
+<li><code>:store</code> アップロードされたファイルを保存するために使用する関数です。Ring には、2 つのストア Ring に含まれています。</li>
 </ul>
 <p>以下は完全な例です。</p>
 <pre>(require &#39;[ring.middleware.params :refer [wrap-params]]
@@ -380,7 +379,7 @@
       wrap-params
       wrap-multipart-params))</pre>
 <p>アップロードされたファイルは、レスポンスの <code>:multipart-params</code> キーで確認できます。</p>
-<p>デフォルトでは、アップロードは一時ファイルに保存され、アップロードされてから1時間後に削除されます。これは <a href="https://github.com/ring-clojure/ring/blob/1.6.3/ring-core/src/ring/middleware/multipart_params/temp_file.clj" target="_blank">ring.middleware.multipart-params.temp-file/temp-file-store</a> 関数で処理されます。</p>
+<p>デフォルトでは、アップロードは一時ファイルに保存され、アップロードされてから1時間後に削除されます。これは<a href="https://ring-clojure.github.io/ring/ring.middleware.multipart-params.temp-file.html" target="_blank"> ring.middleware.multipart-params.temp-file/temp-file-store</a> 関数で処理されます。</p>
 <pre>curl -XPOST  &#34;http://localhost:3000&#34; -F file=@words.txt</pre>
 <p>これにより、リクエストの <code>:params</code> マップに <code>file</code> キーが追加されます。<code>:tempfile</code> はアップロードされたデータを格納する <code>java.io.File</code> オブジェクトです。これを使って、さらに必要な処理を行うことができます。</p>
 <pre>{...
@@ -390,7 +389,7 @@
            :tempfile     #object[java.io.File ...]
            :size         51}}
  ...}</pre>
-<p>上記の例に基づいて、Ringサーバが作成したtempfileをサーバ上の別の場所や恒久的な場所に保存したい場合は、beanを使ってtempfileのパス情報を取得し、io/copyとio/fileを組み合わせてファイルを読み、新しい場所に保存することができます。</p>
+<p>上記の例に基づいて、Ring サーバが作成した tempfile をサーバ上の別の場所や恒久的な場所に保存したい場合は、bean を使って <code>tempfile</code> のパス情報を取得し、<code>io/copy</code> と <code>io/file</code> を組み合わせてファイルを読み、新しい場所に保存することができます。</p>
 <pre>(def demo-ring-req
   {:params {&#34;file&#34;
             {:filename     &#34;words.txt&#34;}
@@ -431,7 +430,7 @@
       <google-codelab-step label="インタラクティブな開発" duration="0">
         <h2 is-upgraded><strong>コンポーネントのライフサイクル管理</strong></h2>
 <p>リロードされたワークフローは、最初に <a href="http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded" target="_blank">reloaded workflow</a> で説明しました。</p>
-<p>リロードされたワークフローは、起動や停止が可能なコンポーネントを使用し、システムとしてまとめられています。開発中、システムは実行中のREPLで開始されます。ソースファイルが変更された後、システムは停止され、ソースファイルがリロードされ、再びシステムが開始されます。 これを一つのコマンドにまとめたり、ショートカットに付けたりすることもできます。</p>
+<p>リロードされたワークフローは、起動や停止が可能なコンポーネントを使用し、システムとしてまとめられています。開発中、システムは実行中の REPL で開始されます。ソースファイルが変更された後、システムは停止され、ソースファイルがリロードされ、再びシステムが開始されます。 これを 1 つのコマンドにまとめたり、ショートカットに付けたりすることもできます。</p>
 <p>コンポーネントには以下のようなものが含まれます。</p>
 <ul>
 <li>設定の読み込み</li>
@@ -448,91 +447,91 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="サードパーティ製のライブラリ" duration="0">
+      <google-codelab-step label="サードパーティ製ライブラリ" duration="0">
         <h2 is-upgraded><strong>アダプタ</strong></h2>
 <ul>
-<li><a href="https://github.com/http-kit/http-kit" target="_blank">http-kit</a>: リングのために一から書かれました</li>
-<li><a href="https://github.com/luminus-framework/ring-undertow-adapter" target="_blank">ring-undertow-adapter</a>: Undertow アダプタ</li>
-<li><a href="https://github.com/aleph-io/aleph" target="_blank">aleph</a>: Netty アダプタ</li>
-<li><a href="https://github.com/mmcgrana/ring-httpcore-adapter" target="_blank">ring-httpcore-adapter</a>: Apache HttpCore アダプタ</li>
-<li><a href="https://github.com/netmelody/ring-simpleweb-adapter" target="_blank">ring-simpleweb-adapter</a>: SimpleWeb アダプタ</li>
-<li><a href="https://github.com/datskos/ring-netty-adapter" target="_blank">ring-netty-adapter</a>: Netty アダプタ</li>
-<li><a href="https://github.com/mikejs/ring-mongrel2-adapter" target="_blank">ring-mongrel2-adapter</a>: Mongrel2 アダプタ</li>
-<li><a href="https://github.com/sprsquish/ring-finagle-adapter" target="_blank">ring-finagle-adapter</a>: Finagle アダプタ</li>
+<li><a href="https://github.com/http-kit/http-kit" target="_blank">http-kit</a> リングのためにゼロから書かれました</li>
+<li><a href="https://github.com/luminus-framework/ring-undertow-adapter" target="_blank">ring-undertow-adapter</a> Undertow アダプタ</li>
+<li><a href="https://github.com/aleph-io/aleph" target="_blank">aleph</a> Netty アダプタ</li>
+<li><a href="https://github.com/mmcgrana/ring-httpcore-adapter" target="_blank">ring-httpcore-adapter</a> Apache HttpCore アダプタ</li>
+<li><a href="https://github.com/netmelody/ring-simpleweb-adapter" target="_blank">ring-simpleweb-adapter</a> SimpleWeb アダプタ</li>
+<li><a href="https://github.com/datskos/ring-netty-adapter" target="_blank">ring-netty-adapter</a> Netty アダプタ</li>
+<li><a href="https://github.com/mikejs/ring-mongrel2-adapter" target="_blank">ring-mongrel2-adapter</a> Mongrel2 アダプタ</li>
+<li><a href="https://github.com/sprsquish/ring-finagle-adapter" target="_blank">ring-finagle-adapter</a> Finagle アダプタ</li>
 </ul>
 <h2 is-upgraded><strong>フレームワーク</strong></h2>
 <ul>
-<li><a href="https://github.com/weavejester/compojure/wiki" target="_blank">Compojure</a>: リングハンドラ関数を生成するための簡潔なDSL</li>
-<li><a href="http://www.luminusweb.net/" target="_blank">Luminus</a>: バッテリー同梱のマイクロフレームワーク</li>
-<li><a href="https://github.com/cgrand/moustache" target="_blank">Moustache</a>: Ringハンドラやミドルウェアを配線するためのマイクロDSL</li>
-<li><a href="https://github.com/boymaas/clocks" target="_blank">clocks</a>: compojure、ring、scriptureの上に構築されたClojureのWeb DSL</li>
-<li><a href="http://www.webnoir.org/" target="_blank">Noir</a>: Clojure でウェブサイトを高速に開発するためのマイクロフレームワークですが、lib-noir の採用により非推奨です。</li>
-<li><a href="https://github.com/myfreeweb/octohipster" target="_blank">Octohipster</a>: HypermediaとSwaggerに対応したREST APIフレームワーク</li>
+<li><a href="https://github.com/weavejester/compojure/wiki" target="_blank">Compojure</a> リングハンドラ関数を生成するための簡潔な DSL</li>
+<li><a href="http://www.luminusweb.net/" target="_blank">Luminus</a> バッテリー同梱のマイクロフレームワーク</li>
+<li><a href="https://github.com/cgrand/moustache" target="_blank">Moustache</a> Ring ハンドラやミドルウェアを配線するためのマイクロ DSL</li>
+<li><a href="https://github.com/boymaas/clocks" target="_blank">clocks</a> compojure、ring、scripture の上に構築された Clojure の Web DSL</li>
+<li><a href="http://www.webnoir.org/" target="_blank">Noir</a> Clojure でウェブサイトを高速に開発するためのマイクロフレームワークですが、lib-noir の採用により非推奨です。</li>
+<li><a href="https://github.com/myfreeweb/octohipster" target="_blank">Octohipster</a> Hypermedia と Swagger に対応した REST API フレームワーク</li>
 </ul>
 <h2 is-upgraded><strong>ミドルウェア</strong></h2>
 <ul>
-<li><a href="https://github.com/remvee/ring-basic-authentication" target="_blank">ring-basic-authentication</a>: 基本認証の実施用ミドルウェア</li>
-<li><a href="https://github.com/mmcgrana/ring-json-params" target="_blank">ring-json-params</a>: JSONをparamにパースするミドルウェア</li>
-<li><a href="https://github.com/amalloy/ring-gzip-middleware" target="_blank">ring-gzip-middleware</a>: レスポンスボディをgzipするためのミドルウェア</li>
-<li><a href="https://github.com/mikejs/ring-etag-middleware" target="_blank">ring-etag-middleware</a>: etagの処理と適切な304応答の送信を行うミドルウェア</li>
-<li><a href="https://github.com/joodie/ring-upload-progress" target="_blank">ring-upload-progress</a>: マルチパートアップロードの解析と進捗状況のフィードバックを提供するミドルウェア</li>
-<li><a href="https://github.com/alandipert/hoptoad" target="_blank">hoptoad</a>: Hoptoadに例外を送信するためのミドルウェア</li>
-<li><a href="https://github.com/leadtune/clj-hoptoad" target="_blank">clj-hoptoad</a>: Hoptoad に例外を送信するためのもう一つのライブラリ</li>
-<li><a href="https://github.com/cvillecsteele/permacookie" target="_blank">permacookie</a>: 利用者のブラウザに恒久的なクッキーを設定し、利用者を識別するライブラリ</li>
-<li><a href="https://github.com/joodie/ring-persistent-cookies" target="_blank">ring-persistent-cookies</a>: 有効期限を指定した永続的なクッキーを設定する</li>
-<li><a href="https://github.com/hozumi/session-expiry" target="_blank">session-expiry</a>: セッションタイムアウトを設定するためのミドルウェア</li>
-<li><a href="https://github.com/remvee/ring-partial-content" target="_blank">ring-partial-content</a>: コンテンツの部分的なリクエストを処理するためのミドルウェア</li>
-<li><a href="https://github.com/ngrunwald/ring-middleware-format" target="_blank">ring-middleware-format</a>: パラメータをパースし、JSONなどの形式でレスポンスを返すためのミドルウェア</li>
-<li><a href="https://github.com/sprsquish/ring-ostrich" target="_blank">ring-ostrich</a>: Ostrich 統計データを公開するミドルウェア</li>
-<li><a href="https://github.com/edgecase/dieter" target="_blank">dieter</a>: Ruby Sprocketsにインスパイアされたアセットパイプラインミドルウェア</li>
-<li><a href="https://github.com/rapala/ring-request-headers-middleware" target="_blank">ring-request-headers</a>: リクエストヘッダを解析する</li>
-<li><a href="https://github.com/pjlegato/ring.middleware.logger" target="_blank">ring.middleware.logger</a>: Ringを通過したすべてのリクエストを記録する</li>
-<li><a href="https://github.com/myfreeweb/ring-ratelimit" target="_blank">ring-ratelimit</a>: レート制限</li>
-<li><a href="https://github.com/ebaxt/ring-rewrite" target="_blank">ring-rewrite</a>: リライトルールの定義と適用</li>
-<li><a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a>: リングアプリを作るためのユーティリティとヘルパーのセット</li>
-<li><a href="https://github.com/nberger/ring-logger" target="_blank">ring-logger</a>: リングのリクエストとレスポンスをログに記録します。tools.loggingやtimbreなどいずれにも使えます。</li>
-<li><a href="https://github.com/patosai/ring-range-middleware" target="_blank">ring-range-middleware</a>: HTTP Range リクエストを処理する</li>
+<li><a href="https://github.com/remvee/ring-basic-authentication" target="_blank">ring-basic-authentication</a> 基本認証の実施用ミドルウェア</li>
+<li><a href="https://github.com/mmcgrana/ring-json-params" target="_blank">ring-json-params</a> JSON を param にパースするミドルウェア</li>
+<li><a href="https://github.com/amalloy/ring-gzip-middleware" target="_blank">ring-gzip-middleware</a> レスポンスボディを gzip するためのミドルウェア</li>
+<li><a href="https://github.com/mikejs/ring-etag-middleware" target="_blank">ring-etag-middleware</a> etag の処理と適切な 304 応答の送信を行うミドルウェア</li>
+<li><a href="https://github.com/joodie/ring-upload-progress" target="_blank">ring-upload-progress</a> マルチパートアップロードの解析と進捗状況のフィードバックを提供するミドルウェア</li>
+<li><a href="https://github.com/alandipert/hoptoad" target="_blank">hoptoad</a> Hoptoad に例外を送信するためのミドルウェア</li>
+<li><a href="https://github.com/leadtune/clj-hoptoad" target="_blank">clj-hoptoad</a> Hoptoad に例外を送信するためのもう 1 つのライブラリ</li>
+<li><a href="https://github.com/cvillecsteele/permacookie" target="_blank">permacookie</a> 利用者のブラウザに恒久的なクッキーを設定し、利用者を識別するライブラリ</li>
+<li><a href="https://github.com/joodie/ring-persistent-cookies" target="_blank">ring-persistent-cookies</a> 有効期限を指定した永続的なクッキーを設定する</li>
+<li><a href="https://github.com/hozumi/session-expiry" target="_blank">session-expiry</a> セッションタイムアウトを設定するためのミドルウェア</li>
+<li><a href="https://github.com/remvee/ring-partial-content" target="_blank">ring-partial-content</a> コンテンツの部分的なリクエストを処理するためのミドルウェア</li>
+<li><a href="https://github.com/ngrunwald/ring-middleware-format" target="_blank">ring-middleware-format</a> パラメータをパースし、JSON などの形式でレスポンスを返すためのミドルウェア</li>
+<li><a href="https://github.com/sprsquish/ring-ostrich" target="_blank">ring-ostrich</a> Ostrich 統計データを公開するミドルウェア</li>
+<li><a href="https://github.com/edgecase/dieter" target="_blank">dieter</a> Ruby Sprockets にインスパイアされたアセットパイプラインミドルウェア</li>
+<li><a href="https://github.com/rapala/ring-request-headers-middleware" target="_blank">ring-request-headers</a> リクエストヘッダを解析する</li>
+<li><a href="https://github.com/pjlegato/ring.middleware.logger" target="_blank">ring.middleware.logger</a> Ring を通過したすべてのリクエストを記録する</li>
+<li><a href="https://github.com/myfreeweb/ring-ratelimit" target="_blank">ring-ratelimit</a> レート制限</li>
+<li><a href="https://github.com/ebaxt/ring-rewrite" target="_blank">ring-rewrite</a> リライトルールの定義と適用</li>
+<li><a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a> リングアプリを作るためのユーティリティとヘルパーのセット</li>
+<li><a href="https://github.com/nberger/ring-logger" target="_blank">ring-logger</a> リングのリクエストとレスポンスをログに記録します。tools.logging や timbre などいずれにも使えます。</li>
+<li><a href="https://github.com/patosai/ring-range-middleware" target="_blank">ring-range-middleware</a> HTTP Range リクエストを処理する</li>
 </ul>
 <h2 is-upgraded><strong>セッション管理</strong></h2>
 <ul>
-<li><a href="https://github.com/hozumi/mongodb-session" target="_blank">mongodb-session</a>: httpセッションをmongodbに取り込む</li>
-<li><a href="https://github.com/ossareh/ring-session-riak" target="_blank">ring-session-riak</a>: riakに保存されたHttpセッション</li>
-<li><a href="https://github.com/paraseba/rrss" target="_blank">rrss</a>: Redisセッションストア</li>
-<li><a href="https://github.com/killme2008/ring-session-memcached" target="_blank">ring-session-memcached</a>: memcachedに格納されたHttpセッション</li>
-<li><a href="https://github.com/simlun/enduro-session" target="_blank">enduro-session</a>: enduroのfile-atomをベースにした耐久性のあるRingセッションストア</li>
-<li><a href="https://github.com/yogthos/jdbc-ring-session" target="_blank">jdbc-ring-session</a>: JDBCでバックアップされたRingセッションストア</li>
+<li><a href="https://github.com/hozumi/mongodb-session" target="_blank">mongodb-session</a> http セッションを mongodb に取り込む</li>
+<li><a href="https://github.com/ossareh/ring-session-riak" target="_blank">ring-session-riak</a> riak に保存された Http セッション</li>
+<li><a href="https://github.com/paraseba/rrss" target="_blank">rrss</a> Redis セッションストア</li>
+<li><a href="https://github.com/killme2008/ring-session-memcached" target="_blank">ring-session-memcached</a> memcached に格納された Http セッション</li>
+<li><a href="https://github.com/simlun/enduro-session" target="_blank">enduro-session</a> enduro の file-atom をベースにした耐久性のある Ring セッションストア</li>
+<li><a href="https://github.com/yogthos/jdbc-ring-session" target="_blank">jdbc-ring-session</a> JDBC でバックアップされた Ring セッションストア</li>
 </ul>
 <h2 is-upgraded><strong>Leiningen のプラグイン</strong></h2>
 <ul>
-<li><a href="https://github.com/weavejester/lein-ring" target="_blank">lein-ring</a>: Leiningenプラグイン（Ring用）</li>
+<li><a href="https://github.com/weavejester/lein-ring" target="_blank">lein-ring</a> Ring 用 Leiningen プラグイン</li>
 </ul>
 <h2 is-upgraded><strong>テスト</strong></h2>
 <ul>
-<li><a href="https://github.com/ring-clojure/ring-mock" target="_blank">ring-mock</a>: Ringアプリケーションのテスト用モックリクエストマップの生成</li>
+<li><a href="https://github.com/ring-clojure/ring-mock" target="_blank">ring-mock</a> Ring アプリケーションのテスト用モックリクエストマップの生成</li>
 </ul>
 <h2 is-upgraded><strong>ユーティリティ</strong></h2>
 <ul>
-<li><a href="https://github.com/brentonashworth/sandbar/wiki" target="_blank">Sandbar</a>: CompojureとRingのための高次抽象化機能</li>
-<li><a href="https://github.com/hiredman/graft" target="_blank">graft</a>: URIをRing用の関数に変換する</li>
-<li><a href="https://github.com/weavejester/clout" target="_blank">Clout</a>: RingリクエストマップのHTTPルートマッチング</li>
-<li><a href="https://github.com/weavejester/ring-serve" target="_blank">ring-serve</a>: REPL で開発用 Web サーバを動作させるためのライブラリ</li>
-<li><a href="https://github.com/laurentpetit/ring-java-servlet" target="_blank">ring-java-servlet</a>: AOTなしでリングを使用するための汎用サーブレット（web.xmlでサーブレットを宣言するのみ）</li>
-<li><a href="https://github.com/brehaut/necessary-evil" target="_blank">necessary-evil</a>: XML-RPCサーバーとクライアントリクエストのためのライブラリ</li>
-<li><a href="https://github.com/mattdw/atompub" target="_blank">atompub</a>: Weblogの編集などに利用できるAtomシンジケーション（フィード）とAtom Publishing Protocolのためのライブラリ</li>
-<li><a href="https://github.com/killme2008/ring.velocity" target="_blank">ring.velocity</a>: clojureでring用のvelocityテンプレートをレンダリングするために設計されたClojureライブラリ</li>
+<li><a href="https://github.com/brentonashworth/sandbar/wiki" target="_blank">Sandbar</a> Compojure と Ring のための高次抽象化機能</li>
+<li><a href="https://github.com/hiredman/graft" target="_blank">graft</a> URI を Ring 用の関数に変換する</li>
+<li><a href="https://github.com/weavejester/clout" target="_blank">Clout</a> Ring リクエストマップの HTTP ルートマッチング</li>
+<li><a href="https://github.com/weavejester/ring-serve" target="_blank">ring-serve</a> REPL で開発用 Web サーバを動作させるためのライブラリ</li>
+<li><a href="https://github.com/laurentpetit/ring-java-servlet" target="_blank">ring-java-servlet</a> AOTなしでリングを使用するための汎用サーブレット（web.xmlでサーブレットを宣言するのみ）</li>
+<li><a href="https://github.com/brehaut/necessary-evil" target="_blank">necessary-evil</a> XML-RPC サーバーとクライアントリクエストのためのライブラリ</li>
+<li><a href="https://github.com/mattdw/atompub" target="_blank">atompub</a> Weblog の編集などに利用できる Atom シンジケーション（フィード）とAtom Publishing Protocol のためのライブラリ</li>
+<li><a href="https://github.com/killme2008/ring.velocity" target="_blank">ring.velocity</a> clojure で ring 用の velocity テンプレートをレンダリングするために設計された Clojure ライブラリ</li>
 </ul>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="ベンチマーク" duration="0">
-        <p><a href="https://github.com/ptaoussanis/clojure-web-server-benchmarks" target="_blank">Clojure Web Server Benchmarks</a> をご参照ください。</p>
+        <p><a href="https://github.com/ptaoussanis/clojure-web-server-benchmarks" target="_blank">Clojure Web Server Benchmarks</a> を参照してください。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="事例" duration="0">
-        <p>以下の事例をご参照ください。</p>
+        <p>以下の事例を参照してください。</p>
 <ul>
 <li><a href="http://gist.github.com/585915" target="_blank">Hello World</a></li>
 <li><a href="http://gist.github.com/585921" target="_blank">Hello World with ring.util.response</a></li>
@@ -544,7 +543,7 @@
       </google-codelab-step>
     
       <google-codelab-step label="標準ミドルウェア" duration="0">
-        <p>Ring自体に搭載されているミドルウェアをご紹介します。</p>
+        <p>Ring 自体に搭載されているミドルウェアをご紹介します。</p>
 <p>ring/ring-core:</p>
 <ul>
 <li><a href="https://github.com/mmcgrana/ring/blob/master/ring-core/src/ring/middleware/cookies.clj#L124" target="_blank">wrap-cookies</a> (ring.middleware.cookies)</li>
@@ -571,11 +570,11 @@
         <p>開発ワークフローを最適化するための様々なオプションがあります。</p>
 <ul>
 <li>ソースファイルの変更時に名前空間をリロードする</li>
-<li>lein-ringプラグインによるセットアップ</li>
-<li>bootによるセットアップ</li>
+<li>lein-ring プラグインによるセットアップ</li>
+<li>boot によるセットアップ</li>
 <li>モジュール・ライフサイクル・ライブラリを使用する 。</li>
 </ul>
-<p>第一のアプローチは、高速で、簡単にセットアップができます。<a href="https://github.com/ring-clojure/ring/tree/master/ring-devel" target="_blank">ring-devel</a><a href="https://github.com/ring-clojure/ring/tree/master/ring-devel)%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AF%E3%80%81%E3%81%93%E3%81%AE%E7%9B%AE%E7%9A%84%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AB%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%92%E6%8F%90%E4%BE%9B%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82" target="_blank">は</a>、この目的のためにミドルウェアを提供しています。</p>
+<p>第一のアプローチは、高速で、簡単にセットアップができます。<a href="https://github.com/ring-clojure/ring/tree/master/ring-devel" target="_blank">ring-devel</a> <a href="https://github.com/ring-clojure/ring/tree/master/ring-devel)%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AF%E3%80%81%E3%81%93%E3%81%AE%E7%9B%AE%E7%9A%84%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AB%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%92%E6%8F%90%E4%BE%9B%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82" target="_blank">は</a>、この目的のためにミドルウェアを提供しています。</p>
 <p>しかし、名前空間のリロードは、アプリケーションの状態をリロードしないという欠点があります。そのため、サーバーの再起動が必要になる場合があります。</p>
 <h2 is-upgraded><strong>lein-ringプラグインによるセットアップ</strong></h2>
 <p>Lein-Ringプラグインが一番わかりやすい方法です。2つのファイルを作成します。</p>
@@ -583,7 +582,7 @@
 <li>src/sample.clj</li>
 <li>project.clj</li>
 </ul>
-<p>_src/sample.clj_で&#39;Hello World&#39;を返すシンプルなサービスです。</p>
+<p>src/sample.clj は <code>'Hello World'</code> を返すシンプルなサービスです。</p>
 <pre>(ns sample)
  
 (defn handler [request]
@@ -605,7 +604,7 @@
 <p><a href="http://localhost:3000/" target="_blank">http://localhost:3000</a> のサーバーをご覧ください。</p>
 <p>サーバーは、ソースディレクトリ内の変更されたファイルを自動的に再読み込みします。</p>
 <h2 is-upgraded><strong>Clojure depsとCLIを使ったセットアップ</strong></h2>
-<p>Clojureは、推移依存性グラフの展開とクラスパスの作成のためのコマンドラインツールを提供します。詳細は <a href="https://clojure.org/guides/deps_and_cli" target="_blank">https://clojure.org/guides/deps_and_cli</a> をご覧ください。</p>
+<p>Clojureは推移依存性グラフの展開とクラスパスの作成のためのコマンドラインツールを提供します。詳細は <a href="https://clojure.org/guides/deps_and_cli" target="_blank">https://clojure.org/guides/deps_and_cli</a> をご覧ください。</p>
 <p>次のようなプロジェクトのファイル構成を作成します。</p>
 <pre>.
 ├── deps.edn
@@ -637,7 +636,7 @@
    :body    &#34;hello world!\n&#34;})
 (defn -main [&amp; args]
   (run-jetty handler {:port 3000}))</pre>
-<p>clojure -M -m sample.server でサーバを起動します。http://localhost:3000 にアクセスし、文字列 &#34;hello world!&#34; が表示されることを確認します。</p>
+<p><code>clojure -M -m sample.server</code> でサーバを起動します。<a href="http://localhost:3000" target="_blank">http://localhost:3000</a> にアクセスし、文字列 <code>"hello world!"</code> が表示されることを確認します。</p>
 <p>開発用サーバーを作成します。</p>
 <pre>;; dev/hotreload.clj
 (ns hotreload
@@ -649,7 +648,7 @@
   (wrap-reload #&#39;handler))
 (defn -main [&amp; args]
   (run-jetty dev-handler {:port 13000}))</pre>
-<p>clojure -A:dev -M:devでサーバーを起動します。http://localhost:13000 にアクセスして、文字列 &#34;hello world!&#34; が表示されることを確認してください。 なお、新しいClojure CLIのバージョンでは、余分な <code>-A:dev</code> の部分は必要ありません。</p>
+<p><code>clojure -A:dev -M:dev</code>でサーバーを起動します。<a href="http://localhost:13000" target="_blank">http://localhost:13000</a> にアクセスして、文字列 <code>"hello world!"</code> が表示されることを確認してください。 新しい Clojure CLI のバージョンでは、余分な <code>-A:dev</code> の部分は必要ありません。</p>
 <p>サーバーは、ソースディレクトリ内の変更されたファイルを自動的に再読み込みします。</p>
 <h2 is-upgraded><strong>bootによるセットアップ</strong></h2>
 <p>BootはClojureのためのビルドツールです。 <a href="https://boot-clj.github.io/" target="_blank">https://boot-clj.github.io/</a></p>
@@ -671,7 +670,7 @@
   [p port PORT int &#34;Server port (default 3000)&#34;]
   (require &#39;[sample :as app])
   (apply (resolve &#39;app/run-dev-server) [(or port 3000)]))</pre>
-<p>リロードせずに&#39;Hello World&#39;を返すシンプルなサービスです</p>
+<p>リロードせずに <code>'Hello World'</code> を返すシンプルなサービスです</p>
 <p><em>src/sample.clj</em></p>
 <pre>(ns sample
   (:require
@@ -690,7 +689,7 @@
 <p>サーバーを起動するには次のようにします。</p>
 <pre>boot dev</pre>
 <p><a href="http://localhost:3000/" target="_blank">http://localhost:3000</a> をご覧ください。</p>
-<p>次に、ホットリロードを追加します。build.boot_のdependenciesに_ring/ring-devel_が含まれていることを確認します。ハンドラをwrap-reloadハンドラにする。</p>
+<p>次に、ホットリロードを追加します。<code>build.boot</code> の <code>dependencies</code> に <code>ring/ring-devel</code> が含まれていることを確認します。ハンドラを <code>wrap-reload</code> ハンドラに指定します。</p>
 <pre>(ns sample
   (:require
    [ring.adapter.jetty :refer [run-jetty]]
@@ -713,37 +712,36 @@
       </google-codelab-step>
     
       <google-codelab-step label="プロダクションのためのセットアップ" duration="0">
-        <p>lein ringプロジェクトを本番用にセットアップするには、多くのオプションがあります。</p>
+        <p>lein ring プロジェクトを本番用にセットアップするには、多くのオプションがあります。</p>
 <ul>
-<li>TomcatやJettyのようなサーブレットエンジンにWAR-archiveをデプロイします。</li>
+<li>Tomcat や Jetty のようなサーブレットエンジンへの WAR-archive デプロイ</li>
 <li>プラグイン lein-ring と ring-server</li>
-<li>組み込み型Jettyサーバ</li>
-<li>モジュールシステムの一部としての組み込みJettyサーバ</li>
-<li>サードパーティーのライブラリを使用する。</li>
+<li>組み込み型 Jetty サーバ</li>
+<li>モジュールシステムの一部としての組み込み Jetty サーバ</li>
+<li>サードパーティー製ライブラリの使用</li>
 </ul>
 <h2 is-upgraded><strong>WAR アーカイブ</strong></h2>
-<p>WARアーカイブは、既存のTomcatやJettyのサーブレットエンジンにアプリケーションをコピーするための標準的なパッケージです。</p>
-<p>これは、clojureのコードとすべてのライブラリを含む特定の構造を持つZIPファイルです。</p>
+<p>WAR アーカイブは、既存の Tomcat や Jetty のサーブレットエンジンにアプリケーションをコピーするための標準的なパッケージであり、clojure のコードとすべてのライブラリを含む特定の構造を持つ ZIP ファイルです。</p>
 <p>以下のコマンドでアーカイブを作成します。</p>
 <pre>lein ring uberwar</pre>
 <p>作成したアーカイブをサーブレットエンジンにデプロイします。</p>
 <h2 is-upgraded><strong>Lein-ring plugin</strong></h2>
-<p>_profile.clj_に <a href="https://github.com/weavejester/lein-ring" target="_blank">lein-ring plugin</a> を追加する必要があります。</p>
+<p>profile.clj に <a href="https://github.com/weavejester/lein-ring" target="_blank">lein-ring plugin</a> を追加する必要があります。</p>
 <pre>:plugins [[lein-ring &#34;0.12.1&#34;]]
 :ring {:handler sample/handler}</pre>
-<p>さらに、環境オプションを使って、ホットリロードとランダムなポート選択を無効にします。</p>
+<p>環境オプションを使って、ホットリロードとランダムなポート選択を無効にします。</p>
 <pre>LEIN_NO_DEV</pre>
 <p>サーバーを起動します。</p>
 <pre>LEIN_NO_DEV=true lein ring server-headless</pre>
 <p>詳しい情報は <a href="https://github.com/weavejester/ring-server" target="_blank">https://github.com/weavejester/ring-server</a> をご覧ください。</p>
 <h2 is-upgraded><strong>組み込まれた Jetty server</strong></h2>
-<p>すでにコンパイルされたClojureコードとすべてのライブラリを含むJARファイルを作成します。</p>
+<p>すでにコンパイルされた Clojure コードとすべてのライブラリを含む JAR ファイルを作成します。</p>
 <p>ステップ</p>
 <ul>
 <li>JAR の src/sample.clj エントリポイント</li>
 <li>ビルド構成</li>
 </ul>
-<p>ハンドラでJettyを起動するには、_ring.adapter.jetty_を使用します。</p>
+<p>ハンドラで Jetty を起動するには、<code>ring.adapter.jetty</code>を使用します。</p>
 <pre>(ns sample
   (:require [ring.adapter.jetty :refer [run-jetty]])
   (:gen-class))
@@ -755,10 +753,10 @@
  
 (defn -main [&amp; args]
   (run-jetty handler {:port (Integer/valueOf (or (System/getenv &#34;port&#34;) &#34;3000&#34;))}))</pre>
-<p>AOTのコンパイルでは、*:gen-class*を使うことが重要です。</p>
+<p>AOT のコンパイルでは、<code>:gen-class</code> を使うことが重要です。</p>
 <p>次のステップは、ビルドツールに依存します。</p>
 <h3 is-upgraded><strong>Leiningenを使ったビルド</strong></h3>
-<p>project.cljに*:aot*と*:main*を追加する必要があります。</p>
+<p>project.cljに <code>:aot</code> と <code>:main</code> を追加する必要があります。</p>
 <pre>(defproject lein-ring &#34;0.1.0-SNAPSHOT&#34;
   :dependencies [[org.clojure/clojure &#34;1.8.0&#34;]
                  [ring/ring-core &#34;1.6.3&#34;]
@@ -769,7 +767,7 @@
       :aot :all
       :main sample}})</pre>
 <h3 is-upgraded><strong>Bootを使ったビルド</strong></h3>
-<p>uberjar を作成するタスクを含むシンプルなbuild.bootです。</p>
+<p>uberjar を作成するタスクを含むシンプルな build.boot です。</p>
 <pre>(set-env!
   :resource-paths #{&#34;src&#34;}
   :dependencies &#39;[[org.clojure/clojure &#34;1.8.0&#34;]
@@ -787,10 +785,10 @@
    (sift :include #{#&#34;project.jar&#34;})
    (target)))</pre>
 <h3 is-upgraded><strong>サーバの実行</strong></h3>
-<p>JARファイルを任意のポートで実行します。</p>
+<p>JAR ファイルを任意のポートで実行します。</p>
 <pre>port=2000 java -jar target/project.jar</pre>
-<h2 is-upgraded><strong>モジュールシステムの一部としてのJettyサーバの組み込み</strong></h2>
-<p>モジュール・ライフサイクル・ライブラリ のページを見てみましょう。</p>
+<h2 is-upgraded><strong>モジュールシステムの一部としての Jetty サーバの組み込み</strong></h2>
+<p>モジュール・ライフサイクル・ライブラリ のページを参照してください。</p>
 
 
       </google-codelab-step>
