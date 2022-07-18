@@ -34,23 +34,23 @@
       </google-codelab-step>
     
       <google-codelab-step label="Ringを使う理由" duration="0">
-        <p>WebアプリケーションのベースとしてRingを使用すると、以下のようなメリットがあります。</p>
+        <p>Web アプリケーションのベースとして Ring を使用すると、以下のようなメリットがあります。</p>
 <ul>
-<li>Clojureの関数やマップを使ってアプリケーションを書くことができる</li>
+<li>Clojure の関数やマップを使ってアプリケーションを書くことができる</li>
 <li>自動リロードされる開発サーバでアプリケーションを実行する</li>
-<li>アプリケーションをJavaサーブレットにコンパイルすることができる</li>
-<li>アプリケーションをJava warファイルとしてパッケージ化できる</li>
+<li>アプリケーションを Java サーブレットにコンパイルすることができる</li>
+<li>アプリケーションを Java war ファイルとしてパッケージ化できる</li>
 <li>あらかじめ用意されている豊富なミドルウェアを利用できる</li>
-<li>作成したアプリケーションを<a href="http://aws.amazon.com/elasticbeanstalk/" target="_blank">Amazon Elastic Beanstalk</a>や<a href="http://heroku.com/" target="_blank">Heroku</a>などのクラウド環境にアプリケーションをデプロイすることができる</li>
+<li>作成したアプリケーションを <a href="http://aws.amazon.com/elasticbeanstalk/" target="_blank">Amazon Elastic Beanstalk</a> や <a href="http://heroku.com/" target="_blank">Heroku</a> などのクラウド環境にアプリケーションをデプロイすることができる</li>
 </ul>
-<p>Ringは、ClojureでWebアプリケーションを書くための、現在のデファクトスタンダードな基盤です。 <a href="http://compojure.org/" target="_blank">Compojure</a>や<a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a>のような高レベルのフレームワークもあります。 <a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a>などの高レベルのフレームワークは、Ringを共通の基盤として使用しています。</p>
-<p>Ringは低レベルのインターフェイスしか提供していませんが、高レベルのインターフェイスを使用する予定であっても、Ringの動作を理解しておくと便利です。 Ringの基本的な理解がなければ、ミドルウェアを書くこともできませんし、アプリケーションのデバッグも困難になるでしょう。</p>
+<p>Ring は、Clojure で Web アプリケーションを書くための、現在のデファクトスタンダードな基盤です。 <a href="http://compojure.org/" target="_blank">Compojure</a> や <a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a> のような高レベルのフレームワークもありますが、 <a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a> などの高レベルのフレームワークは Ring を共通の基盤として使用しています。</p>
+<p>Ring は低レベルのインターフェイスしか提供していませんが、高レベルのインターフェイスを使用する予定であっても、Ring の動作を理解しておくと便利です。 Ring の基本的な理解がなければ、ミドルウェアを書くこともできませんし、アプリケーションのデバッグも困難になるでしょう。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="コンセプト" duration="0">
-        <p>Ring用に開発されたWebアプリケーションは、4つのコンポーネントで構成されています。</p>
+        <p>Ring 用に開発された Web アプリケーションは、4 つのコンポーネントで構成されています。</p>
 <ul>
 <li>ハンドラ (Handler)</li>
 <li>リクエスト (Request)</li>
@@ -63,7 +63,7 @@
    :headers {&#34;Content-Type&#34; &#34;text/plain&#34;}
    :body (:remote-addr request)})</pre>
 <p>この関数は、Ring が HTTP レスポンスに変換できるマップを返します。このレスポンスは、Web アプリケーションへのアクセスに使用された IP アドレスを含むプレーンテキストファイルを返します。</p>
-<p>ハンドラは 非同期 の場合もあります。このタイプのハンドラは3つの引数を取ります。 リクエストのマップ、レスポンスのコールバック、例外のコールバックです。</p>
+<p>ハンドラは 非同期 の場合もあります。このタイプのハンドラは 3 つの引数を取ります。 リクエストのマップ、レスポンスのコールバック、例外のコールバックです。</p>
 <pre>(defn what-is-my-ip [request respond raise]
   (respond {:status 200
             :headers {&#34;Content-Type&#34; &#34;text/plain&#34;}
@@ -76,7 +76,7 @@
      :body (:remote-addr request)})
   ([request respond raise]
     (respond (what-is-my-ip request))))</pre>
-<p>公式のRingミドルウェアは、両方のタイプのハンドラをサポートしていますが、ほとんどの目的では同期ハンドラで十分です。</p>
+<p>公式の Ring ミドルウェアは、両方のタイプのハンドラをサポートしていますが、ほとんどの目的では同期ハンドラで十分です。</p>
 <p>ハンドラ関数は、次のセクションで説明するさまざまな方法でウェブアプリケーションに変換することができます。</p>
 <h2 is-upgraded><strong>リクエスト</strong></h2>
 <p>前述のとおり、HTTP リクエストは Clojure のマップで表現されます。常に存在するいくつかの標準的なキーがありますが、リクエストにはミドルウェアによって追加されたカスタムキーが含まれることがあります（そしてしばしばそうなります）。</p>
@@ -92,23 +92,23 @@
 <li><code>:headers</code> (ヘッダー) 小文字のヘッダ名文字列から対応するヘッダ値文字列へのClojureマップです。</li>
 <li><code>:body</code> もしあれば、リクエストボディの入力ストリームです。</li>
 </ul>
-<p>また、以前のバージョンのRingでは、以下のようなキーがありました。これらは現在 DEPRECATED されています。</p>
+<p>以前のバージョンの Ring では以下のキーがありましたが、これらは現在 DEPRECATED されています。</p>
 <ul>
 <li><code>:content-type</code> リクエストボディのMIMEタイプ（分かっている場合）。</li>
 <li><code>:Content-Length</code> もしわかっていれば、リクエストボディのバイト数です。</li>
 <li><code>:character-encoding</code> もしわかっていれば、リクエストボディで使用されている文字エンコーディングの名前です。</li>
 </ul>
 <h2 is-upgraded><strong>レスポンス</strong></h2>
-<p>レスポンスマップはハンドラーによって作成され、3つのキーが含まれています。</p>
+<p>レスポンスマップはハンドラーによって作成され、3 つのキーが含まれています。</p>
 <ul>
 <li><code>:status</code> 200、302、404などのHTTPステータスコードです。</li>
 <li><code>:headers</code> HTTPヘッダ名からヘッダ値へのClojureマップです。これらの値は文字列で、その場合は HTTP レスポンスで 1 つの名前/値のヘッダが送信されます。また、文字列の集合体で、その場合は各値に対して名前/値のヘッダが送信されます。</li>
 <li><code>:body</code> レスポンスのステータスコードに対してレスポンスボディが適切な場合には、レスポンスボディの表現です。ボディは4つのタイプのうちの1つです。</li>
-<li><code>String</code> ボディはクライアントに直接送信されます。</li>
-<li><code>ISeq</code> seqの各要素は、文字列としてクライアントに送信されます。</li>
-<li><code>File</code> 参照されるファイルの内容がクライアントに送信される。</li>
-<li><code>InputStream</code> ストリームの内容がクライアントに送信される。ストリームを使い切ると、ストリームは閉じられる。</li>
 </ul>
+<p><code>・String</code> ボディはクライアントに直接送信されます。</p>
+<p><code>・ISeq</code> seqの各要素は、文字列としてクライアントに送信されます。</p>
+<p><code>・File</code> 参照されるファイルの内容がクライアントに送信されます。</p>
+<p><code>・InputStream</code> ストリームの内容がクライアントに送信されます。ストリームを使い切ると、ストリームは閉じられます。</p>
 <h2 is-upgraded><strong>ミドルウェア</strong></h2>
 <p>ミドルウェアとは、ハンドラーに追加機能を与える上位の関数です。ミドルウェア関数の第一引数にはハンドラを指定し、その戻り値には元のハンドラを呼び出す新しいハンドラ関数を指定します。</p>
 <p>簡単な例を挙げてみましょう。</p>
