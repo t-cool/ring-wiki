@@ -28,23 +28,23 @@
                   feedback-link="">
     
       <google-codelab-step label="はじめに" duration="0">
-        <p>Ring は、プログラミング言語 <a href="http://clojure.org/" target="_blank">Clojure</a> で Web アプリケーションを構築するための低レベルのインターフェースとライブラリです。Ruby の <a href="http://rack.github.io/" target="_blank">Rack</a> や Python の <a href="http://wsgi.readthedocs.org/" target="_blank">WSGI</a>、あるいはJava の Servlet の仕様に似ています。</p>
+        <p>Ring は、プログラミング言語 <a href="http://clojure.org/" target="_blank">Clojure</a> で Web アプリケーションを構築するための低レベルのライブラリです。Ruby の <a href="http://rack.github.io/" target="_blank">Rack</a> や Python の <a href="http://wsgi.readthedocs.org/" target="_blank">WSGI</a>、あるいは Java の Servlet の仕様に似ています。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Ringを使う理由" duration="0">
-        <p>Web アプリケーションのベースとして Ring を使用すると、以下のようなメリットがあります。</p>
+        <p>Web アプリケーションの基盤として Ring を使うと、以下のメリットがあります。</p>
 <ul>
 <li>Clojure の関数やマップを使ってアプリケーションを書くことができる</li>
-<li>自動リロードされる開発サーバでアプリケーションを実行する</li>
+<li>自動リロードされる開発サーバでアプリケーションを実行できる</li>
 <li>アプリケーションを Java サーブレットにコンパイルすることができる</li>
 <li>アプリケーションを Java war ファイルとしてパッケージ化できる</li>
 <li>あらかじめ用意されている豊富なミドルウェアを利用できる</li>
-<li>作成したアプリケーションを <a href="http://aws.amazon.com/elasticbeanstalk/" target="_blank">Amazon Elastic Beanstalk</a> や <a href="http://heroku.com/" target="_blank">Heroku</a> などのクラウド環境にアプリケーションをデプロイすることができる</li>
+<li>作成したアプリケーションを <a href="http://aws.amazon.com/elasticbeanstalk/" target="_blank">Amazon Elastic Beanstalk</a> や <a href="http://heroku.com/" target="_blank">Heroku</a> などのクラウド環境にアプリケーションをデプロイできる</li>
 </ul>
-<p>Ring は、Clojure で Web アプリケーションを書くための、現在のデファクトスタンダードな基盤です。 <a href="http://compojure.org/" target="_blank">Compojure</a> や <a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a> のような高レベルのフレームワークもありますが、 <a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a> などの高レベルのフレームワークは Ring を共通の基盤として使用しています。</p>
-<p>Ring は低レベルのインターフェイスしか提供していませんが、高レベルのインターフェイスを使用する予定であっても、Ring の動作を理解しておくと便利です。 Ring の基本的な理解がなければ、ミドルウェアを書くこともできませんし、アプリケーションのデバッグも困難になるでしょう。</p>
+<p>Clojure で Web アプリケーションを書く場合、Ring は業界の標準として認められている基盤です。 <a href="http://compojure.org/" target="_blank">Compojure</a> や <a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a> のような高レベルのフレームワークもありますが、 <a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a> などの高レベルのフレームワークは Ring を共通の基盤として使用しています。</p>
+<p>Ring は低レベルのインターフェースしか提供していませんが、高レベルのインターフェースを使用する場合でも Ring の動作を理解しておくと便利です。 Ring の基本的な理解がなければミドルウェアを書くこともできませんし、アプリケーションのデバッグも困難になるでしょう。</p>
 
 
       </google-codelab-step>
@@ -68,7 +68,7 @@
   (respond {:status 200
             :headers {&#34;Content-Type&#34; &#34;text/plain&#34;}
             :body (:remote-addr request)}))</pre>
-<p>この2つのタイプのハンドラはそれぞれ異なるアリティを持っているので、これらを組み合わせて、同期または非同期に使用できるハンドラを作ることができます。</p>
+<p>この 2 つのタイプのハンドラはそれぞれ異なるアリティを持っているので、これらを組み合わせて、同期または非同期に使用できるハンドラを作ることができます。</p>
 <pre>(defn what-is-my-ip
   ([request]
     {:status 200
@@ -79,7 +79,7 @@
 <p>公式の Ring ミドルウェアは、両方のタイプのハンドラをサポートしていますが、ほとんどの目的では同期ハンドラで十分です。</p>
 <p>ハンドラ関数は、次のセクションで説明するさまざまな方法でウェブアプリケーションに変換することができます。</p>
 <h2 is-upgraded><strong>リクエスト</strong></h2>
-<p>前述のとおり、HTTP リクエストは Clojure のマップで表現されます。常に存在するいくつかの標準的なキーがありますが、リクエストにはミドルウェアによって追加されたカスタムキーが含まれることがあります（そしてしばしばそうなります）。</p>
+<p>HTTP リクエストは Clojure のマップで表現されます。常に存在するいくつかの標準的なキーがありますが、リクエストにはミドルウェアによって追加されたカスタムキーが含まれることがあります（しばしばそうなります）。</p>
 <p>標準的なキーは次の通りです。</p>
 <ul>
 <li><code>:server-port</code> リクエストを処理するためのポートです。</li>
@@ -101,8 +101,8 @@
 <h2 is-upgraded><strong>レスポンス</strong></h2>
 <p>レスポンスマップはハンドラーによって作成され、3 つのキーが含まれています。</p>
 <ul>
-<li><code>:status</code> 200、302、404などのHTTPステータスコードです。</li>
-<li><code>:headers</code> HTTPヘッダ名からヘッダ値へのClojureマップです。これらの値は文字列で、その場合は HTTP レスポンスで 1 つの名前/値のヘッダが送信されます。また、文字列の集合体で、その場合は各値に対して名前/値のヘッダが送信されます。</li>
+<li><code>:status</code> 200、302、404などの HTTP ステータスコードです。</li>
+<li><code>:headers</code> HTTP ヘッダ名からヘッダ値への Clojure マップです。これらの値は文字列で、その場合は HTTP レスポンスで 1 つの名前/値のヘッダが送信されます。また、文字列の集合体で、その場合は各値に対して名前/値のヘッダが送信されます。</li>
 <li><code>:body</code> レスポンスのステータスコードに対してレスポンスボディが適切な場合には、レスポンスボディの表現です。ボディは4つのタイプのうちの1つです。</li>
 </ul>
 <p><code>・String</code> ボディはクライアントに直接送信されます。</p>
