@@ -614,8 +614,8 @@
     └── sample
         └── server.clj</pre>
 <p>依存関係とクラスパスを記述します。</p>
-<pre>;; deps.edn
-{:paths [&#34;src&#34;]
+<p><code>deps.edn</code></p>
+<pre>{:paths [&#34;src&#34;]
  :deps
  {org.clojure/clojure {:mvn/version &#34;1.9.0&#34;}
   ring/ring-core {:mvn/version &#34;1.6.3&#34;}
@@ -626,8 +626,8 @@
    :extra-deps {ring/ring-devel {:mvn/version &#34;1.6.3&#34;}}
    :main-opts [&#34;-m&#34; &#34;hotreload&#34;]}}}</pre>
 <p>本番サーバーを作成します。</p>
-<pre>;; src/sample/server.clj
-(ns sample.server
+<p><code>src/sample/server.clj</code></p>
+<pre>(ns sample.server
   (:require [ring.adapter.jetty :refer [run-jetty]])
   (:gen-class))
 (defn handler [request]
@@ -638,8 +638,8 @@
   (run-jetty handler {:port 3000}))</pre>
 <p><code>clojure -M -m sample.server</code> でサーバを起動します。<a href="http://localhost:3000" target="_blank">http://localhost:3000</a> にアクセスし、文字列 <code>"hello world!"</code> が表示されることを確認します。</p>
 <p>開発用サーバーを作成します。</p>
-<pre>;; dev/hotreload.clj
-(ns hotreload
+<p><code>dev/hotreload.clj</code></p>
+<pre>(ns hotreload
   (:require [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.reload :refer [wrap-reload]]
             [sample.server :refer [handler]])
