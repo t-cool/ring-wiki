@@ -58,10 +58,10 @@
 <li>ミドルウェア (Middleware)</li>
 </ul>
 <h2 is-upgraded><strong>ハンドラ</strong></h2>
-<pre><code>(defn what-is-my-ip [request]
+<pre>(defn what-is-my-ip [request]
   {:status 200
    :headers {&#34;Content-Type&#34; &#34;text/plain&#34;}
-   :body (:remote-addr request)})</code></pre>
+   :body (:remote-addr request)})</pre>
 <p>この関数は、Ring が HTTP レスポンスに変換できるマップを返します。このレスポンスは、Web アプリケーションへのアクセスに使用された IP アドレスを含むプレーンテキストファイルを返します。</p>
 <p>ハンドラは 非同期 の場合もあります。このタイプのハンドラは 3 つの引数を取ります。 リクエストのマップ、レスポンスのコールバック、例外のコールバックです。</p>
 <pre>(defn what-is-my-ip [request respond raise]
