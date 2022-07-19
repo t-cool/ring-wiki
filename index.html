@@ -450,7 +450,7 @@
       <google-codelab-step label="サードパーティ製ライブラリ" duration="0">
         <h2 is-upgraded><strong>アダプタ</strong></h2>
 <ul>
-<li><a href="https://github.com/http-kit/http-kit" target="_blank">http-kit</a> リングのためにゼロから書かれました</li>
+<li><a href="https://github.com/http-kit/http-kit" target="_blank">http-kit</a> Ring のためにゼロから書かれました</li>
 <li><a href="https://github.com/luminus-framework/ring-undertow-adapter" target="_blank">ring-undertow-adapter</a> Undertow アダプタ</li>
 <li><a href="https://github.com/aleph-io/aleph" target="_blank">aleph</a> Netty アダプタ</li>
 <li><a href="https://github.com/mmcgrana/ring-httpcore-adapter" target="_blank">ring-httpcore-adapter</a> Apache HttpCore アダプタ</li>
@@ -461,7 +461,7 @@
 </ul>
 <h2 is-upgraded><strong>フレームワーク</strong></h2>
 <ul>
-<li><a href="https://github.com/weavejester/compojure/wiki" target="_blank">Compojure</a> リングハンドラ関数を生成するための簡潔な DSL</li>
+<li><a href="https://github.com/weavejester/compojure/wiki" target="_blank">Compojure</a> Ring のハンドラ関数を生成するための簡潔な DSL</li>
 <li><a href="http://www.luminusweb.net/" target="_blank">Luminus</a> バッテリー同梱のマイクロフレームワーク</li>
 <li><a href="https://github.com/cgrand/moustache" target="_blank">Moustache</a> Ring ハンドラやミドルウェアを配線するためのマイクロ DSL</li>
 <li><a href="https://github.com/boymaas/clocks" target="_blank">clocks</a> compojure、ring、scripture の上に構築された Clojure の Web DSL</li>
@@ -488,8 +488,8 @@
 <li><a href="https://github.com/pjlegato/ring.middleware.logger" target="_blank">ring.middleware.logger</a> Ring を通過したすべてのリクエストを記録する</li>
 <li><a href="https://github.com/myfreeweb/ring-ratelimit" target="_blank">ring-ratelimit</a> レート制限</li>
 <li><a href="https://github.com/ebaxt/ring-rewrite" target="_blank">ring-rewrite</a> リライトルールの定義と適用</li>
-<li><a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a> リングアプリを作るためのユーティリティとヘルパーのセット</li>
-<li><a href="https://github.com/nberger/ring-logger" target="_blank">ring-logger</a> リングのリクエストとレスポンスをログに記録します。tools.logging や timbre などいずれにも使えます。</li>
+<li><a href="https://github.com/noir-clojure/lib-noir" target="_blank">lib-noir</a> Ring アプリを作るためのユーティリティとヘルパーのセット</li>
+<li><a href="https://github.com/nberger/ring-logger" target="_blank">ring-logger</a> Ring のリクエストとレスポンスをログに記録します。tools.logging や timbre などいずれにも使えます。</li>
 <li><a href="https://github.com/patosai/ring-range-middleware" target="_blank">ring-range-middleware</a> HTTP Range リクエストを処理する</li>
 </ul>
 <h2 is-upgraded><strong>セッション管理</strong></h2>
@@ -515,7 +515,7 @@
 <li><a href="https://github.com/hiredman/graft" target="_blank">graft</a> URI を Ring 用の関数に変換する</li>
 <li><a href="https://github.com/weavejester/clout" target="_blank">Clout</a> Ring リクエストマップの HTTP ルートマッチング</li>
 <li><a href="https://github.com/weavejester/ring-serve" target="_blank">ring-serve</a> REPL で開発用 Web サーバを動作させるためのライブラリ</li>
-<li><a href="https://github.com/laurentpetit/ring-java-servlet" target="_blank">ring-java-servlet</a> AOTなしでリングを使用するための汎用サーブレット（web.xml でサーブレットを宣言するのみ）</li>
+<li><a href="https://github.com/laurentpetit/ring-java-servlet" target="_blank">ring-java-servlet</a> AOTなしで Ring を使用するための汎用サーブレット（web.xml でサーブレットを宣言するのみ）</li>
 <li><a href="https://github.com/brehaut/necessary-evil" target="_blank">necessary-evil</a> XML-RPC サーバとクライアントリクエストのためのライブラリ</li>
 <li><a href="https://github.com/mattdw/atompub" target="_blank">atompub</a> Weblog の編集などに利用できる Atom シンジケーション（フィード）と Atom Publishing Protocol のためのライブラリ</li>
 <li><a href="https://github.com/killme2008/ring.velocity" target="_blank">ring.velocity</a> clojure で ring 用の velocity テンプレートをレンダリングするために設計された Clojure ライブラリ</li>
@@ -589,7 +589,7 @@
   {:status 200
    :headers {&#34;Content-Type&#34; &#34;text/plain&#34;}
    :body &#34;Hello world.&#34;})</pre>
-<p>プロジェクトファイル <code>project.clj</code> に <code>lein-ring</code> を追加し、リングハンドラを設定します。</p>
+<p>プロジェクトファイル <code>project.clj</code> に <code>lein-ring</code> を追加し、Ring のハンドラを設定します。</p>
 <pre>:ring {:handler sample/handler}</pre>
 <p>次は、最小限の <code>project.clj</code> です。</p>
 <pre>(defproject lein-demo &#34;0.1.0-SNAPSHOT&#34;
