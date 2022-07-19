@@ -58,10 +58,10 @@
 <li>ミドルウェア (Middleware)</li>
 </ul>
 <h2 is-upgraded><strong>ハンドラ</strong></h2>
-<pre>(defn what-is-my-ip [request]
+<pre><code>(defn what-is-my-ip [request]
   {:status 200
    :headers {&#34;Content-Type&#34; &#34;text/plain&#34;}
-   :body (:remote-addr request)})</pre>
+   :body (:remote-addr request)})</code></pre>
 <p>この関数は、Ring が HTTP レスポンスに変換できるマップを返します。このレスポンスは、Web アプリケーションへのアクセスに使用された IP アドレスを含むプレーンテキストファイルを返します。</p>
 <p>ハンドラは 非同期 の場合もあります。このタイプのハンドラは 3 つの引数を取ります。 リクエストのマップ、レスポンスのコールバック、例外のコールバックです。</p>
 <pre>(defn what-is-my-ip [request respond raise]
@@ -83,25 +83,25 @@
 <p>標準的なキーは次の通りです。</p>
 <ul>
 <li><code>:server-port</code> リクエストを処理するためのポートです。</li>
-<li><code>:server-name</code> 解決されたサーバー名、またはサーバーのIPアドレスです。</li>
+<li><code>:server-name</code> 解決されたサーバー名、またはサーバーの IP アドレスです。</li>
 <li><code>:remote-addr</code> リクエストを送信したクライアントまたは最後のプロキシのIPアドレスです。</li>
-<li><code>:uri</code> リクエストのURI(ドメイン名の後のフルパス)です。</li>
+<li><code>:uri</code> リクエストの URI (ドメイン名の後のフルパス)です。</li>
 <li><code>:query-string</code> クエリ文字列があれば、それを入力します。</li>
 <li><code>:scheme</code> トランスポートプロトコルです。<code>:http</code> または <code>:https</code> のいずれかになります。</li>
-<li><code>:request-method</code> HTTPリクエストメソッドで、<code>:get</code>, <code>:head</code>, <code>:options</code>, <code>:put</code>, <code>:post</code>, <code>:delete</code> のいずれかになります。</li>
-<li><code>:headers</code> (ヘッダー) 小文字のヘッダ名文字列から対応するヘッダ値文字列へのClojureマップです。</li>
+<li><code>:request-method</code> HTTP リクエストメソッドで、<code>:get</code>, <code>:head</code>, <code>:options</code>, <code>:put</code>, <code>:post</code>, <code>:delete</code> のいずれかになります。</li>
+<li><code>:headers</code> (ヘッダー) 小文字のヘッダ名文字列から対応するヘッダ値文字列への Clojure マップです。</li>
 <li><code>:body</code> もしあれば、リクエストボディの入力ストリームです。</li>
 </ul>
 <p>以前のバージョンの Ring では以下のキーがありましたが、これらは現在 DEPRECATED されています。</p>
 <ul>
-<li><code>:content-type</code> リクエストボディのMIMEタイプ（分かっている場合）。</li>
+<li><code>:content-type</code> リクエストボディの MIME タイプ（分かっている場合）。</li>
 <li><code>:Content-Length</code> もしわかっていれば、リクエストボディのバイト数です。</li>
 <li><code>:character-encoding</code> もしわかっていれば、リクエストボディで使用されている文字エンコーディングの名前です。</li>
 </ul>
 <h2 is-upgraded><strong>レスポンス</strong></h2>
 <p>レスポンスマップはハンドラーによって作成され、3 つのキーが含まれています。</p>
 <ul>
-<li><code>:status</code> 200、302、404などの HTTP ステータスコードです。</li>
+<li><code>:status</code> 200、302、404 などの HTTP ステータスコードです。</li>
 <li><code>:headers</code> HTTP ヘッダ名からヘッダ値への Clojure マップです。これらの値は文字列で、その場合は HTTP レスポンスで 1 つの名前/値のヘッダが送信されます。また、文字列の集合体で、その場合は各値に対して名前/値のヘッダが送信されます。</li>
 <li><code>:body</code> レスポンスのステータスコードに対してレスポンスボディが適切な場合には、レスポンスボディの表現です。ボディは4つのタイプのうちの1つです。</li>
 </ul>
@@ -143,7 +143,7 @@
     
       <google-codelab-step label="レスポンスの作成" duration="0">
         <p>Ring のレスポンス・マップは手動で作成することもできますが、<code>ring.util.response</code> 名前空間には、この作業を容易にする便利な関数が多数含まれています。</p>
-<p>response 関数は、基本的な &#34;200 OK&#34; レスポンスを作成します。</p>
+<p>response 関数は、基本的な <code>"200 OK"</code> レスポンスを作成します。</p>
 <pre>(response &#34;Hello World&#34;)
 
 ; =&gt; {:status 200
@@ -183,11 +183,11 @@
 (def app
   (wrap-file your-handler &#34;/var/www/public&#34;))</pre>
 <p>これは、与えられたルートパスのディレクトリに、リクエストに応答するための静的ファイルがあるかどうかをチェックし、そのようなファイルが存在しない場合は、ラップされたハンドラにリクエストをプロキシするようにハンドラをラップします。</p>
-<p>もう 1 つは <code>wrap-resource</code> です。これは、JVMのクラスパスから静的コンテンツを提供します。</p>
+<p>もう 1 つは <code>wrap-resource</code> です。これは、JVM のクラスパスから静的コンテンツを提供します。</p>
 <pre>(use &#39;ring.middleware.resource)
 (def app
   (wrap-resource your-handler &#34;public&#34;))</pre>
-<p>Leiningen のような Clojure ビルドツールを使用している場合、プロジェクトのソースファイル以外のリソースは、resources ディレクトリに保存されます。このディレクトリにあるファイルは、自動的に jar ファイルや war ファイルにインクルードされます。</p>
+<p>Leiningen のような Clojure ビルドツールを使用している場合、プロジェクトのソースファイル以外のリソースは<code>、resources</code> ディレクトリに保存されます。このディレクトリにあるファイルは、自動的に jar ファイルや war ファイルにインクルードされます。</p>
 <p>つまり、上記の例では、<code>resources/public</code> ディレクトリに置かれたファイルは、静的ファイルとして提供されます。</p>
 <p>多くの場合、<code>wrap-file</code> や <code>wrap-resource</code> を他のミドルウェアと組み合わせたいと思うでしょう。通常は <code>wrap-content-type</code> と <code>wrap-not-modified</code> です。</p>
 <pre>(use &#39;ring.middleware.resource
@@ -199,25 +199,25 @@
       (wrap-resource &#34;public&#34;)
       (wrap-content-type)
       (wrap-not-modified))</pre>
-<p><code>wrap-content-type</code> ミドルウェアは、ファイルの拡張子に基づいてコンテントタイプを選択します。例えば、hello.txt というファイルのコンテントタイプは、text/plain となります。</p>
-<p>wrap-not-modified ミドルウェアは、レスポンスの Last-Modified ヘッダと、リクエストのIf-Modified-Since ヘッダを照合します。これにより、クライアントが既にキャッシュされたリソースをダウンロードする必要がなくなり、帯域幅を節約することができます。</p>
-<p>この追加のミドルウェアは、wrap-resource や wrap-file 関数をラップして（つまり、後から）来る必要があることに注意してください。</p>
+<p><code>wrap-content-type</code> ミドルウェアは、ファイルの拡張子に基づいてコンテントタイプを選択します。例えば、hello.txt というファイルのコンテントタイプは text/plain となります。</p>
+<p><code>wrap-not-modified</code> ミドルウェアは、レスポンスの <code>Last-Modified</code> ヘッダと、リクエストの <code>If-Modified-Since</code> ヘッダを照合します。これにより、クライアントが既にキャッシュされたリソースをダウンロードする必要がなくなり、帯域幅を節約することができます。</p>
+<p>この追加のミドルウェアは、<code>wrap-resource</code> や <code>wrap-file</code> 関数をラップして（つまり、後から）来る必要があることに注意してください。</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="コンテンツタイプ" duration="0">
-        <p>wrap-content-type ミドルウェアを使って、URI のファイル拡張子に基づいてContent-Type ヘッダを追加することができます。</p>
+        <p><code>wrap-content-type</code> ミドルウェアを使って、URI のファイル拡張子に基づいてContent-Type ヘッダを追加することができます。</p>
 <pre>(use &#39;ring.middleware.content-type)
  
 (def app
   (wrap-content-type your-handler))</pre>
 <p>つまり、ユーザーが以下のスタイルシートにアクセスした場合、</p>
 <pre>http://example.com/style/screen.css</pre>
-<p>content-type ミドルウェアは、次のようなヘッダーを追加します。</p>
+<p><code>content-type</code> ミドルウェアは、次のようなヘッダーを追加します。</p>
 <pre>Content-Type: text/css</pre>
 <p>デフォルトのコンテンツタイプのマッピングは、 <a href="https://github.com/ring-clojure/ring/blob/master/ring-core/src/ring/util/mime_type.clj" target="_blank">ring-core/src/ring/util/mime_types.clj</a> で見ることができます。</p>
-<p>また、:mime-types オプションを使って、カスタムの mime-types を追加することもできます。</p>
+<p>また、<code>:mime-types</code> オプションを使って、カスタムの <code>mime-types</code> を追加することもできます。</p>
 <pre>(use &#39;ring.middleware.content-type)
  
 (def app
@@ -234,13 +234,13 @@
 <pre>(use &#39;ring.middleware.params)
 (def app
   (wrap-params your-handler))</pre>
-<p>wrap-params ミドルウェアは、URL エンコードされたパラメータを、クエリ文字列または HTTP リクエストボディからサポートします。</p>
+<p><code>wrap-params</code> ミドルウェアは、URL エンコードされたパラメータを、クエリ文字列または HTTP リクエストボディからサポートします。</p>
 <p>ファイルのアップロードはサポートしていません。これはミドルウェアの <code>wrap-multipart-params</code> で処理されます。マルチパートフォームの詳細については、ファイルアップロードのセクションを参照してください。</p>
 <p><code>wrap-params</code> 関数はオプションのマップを受け取ります．現在、認識できるキーは 1 つだけです。</p>
 <ul>
 <li><code>:encoding</code> パラメータの文字エンコーディングを指定します。デフォルトでは、リクエストの 文字エンコーディングが設定されていない場合は、UTF-8 がデフォルトです。 セットされます。</li>
 </ul>
-<p>パラメーターミドルウェアは、ハンドラーに適用されると、リクエストマップに3つの新しいキーを追加します。</p>
+<p>パラメーターミドルウェアは、ハンドラーに適用されると、リクエストマップに 3 つの新しいキーを追加します。</p>
 <ul>
 <li><code>:query-params</code> クエリ文字列のパラメータのマップ</li>
 <li><code>:form-params</code> 送信されたフォームデータに含まれるパラメータのマップ</li>
@@ -285,15 +285,15 @@
  :body &#34;Setting a cookie.&#34;}</pre>
 <p>Cookie の値を設定するだけでなく、追加の属性を設定することもできます。</p>
 <ul>
-<li><code>:domain</code> Cookieを特定のドメインに制限します。</li>
-<li><code>:path</code> Cookieを特定のパスに制限します。</li>
-<li><code>:secure</code> trueの場合、CookieをHTTPS URLに制限します。</li>
-<li><code>:http-only</code> trueの場合、CookieをHTTPに制限します(例えばJavaScriptでアクセスできない)。</li>
-<li><code>:max-age</code> Cookieの有効期限が切れるまでの秒数</li>
-<li><code>:expires</code> Cookieの有効期限が切れる特定の日時</li>
-<li><code>:same-site</code> Cookieをクロスサイト要求で送信するかどうかを決定するために、<code>:strict</code>、<code>:lax</code>、または <code>:none</code> を指定します。</li>
+<li><code>:domain</code> Cookie を特定のドメインに制限します。</li>
+<li><code>:path</code> Cookie を特定のパスに制限します。</li>
+<li><code>:secure</code> true の場合、Cookie を HTTPS URL に制限します。</li>
+<li><code>:http-only</code> trueの場合、Cookie を HTTP に制限します(例えば JavaScript でアクセスできない)。</li>
+<li><code>:max-age</code> Cookie の有効期限が切れるまでの秒数</li>
+<li><code>:expires</code> Cookie の有効期限が切れる特定の日時</li>
+<li><code>:same-site</code> Cookie をクロスサイト要求で送信するかどうかを決定するために、<code>:strict</code>、<code>:lax</code>、または <code>:none</code> を指定します。</li>
 </ul>
-<p>ですから、1 時間で期限切れになる安全なクッキーが欲しいなら、次のようにします。</p>
+<p>1 時間で期限切れになる安全なクッキーが欲しい場合、次のようにします。</p>
 <pre>{&#34;secret&#34; {:value &#34;foobar&#34;, :secure true, :max-age 3600}}</pre>
 
 
@@ -327,7 +327,7 @@
 <p>セッションクッキーがユーザーのブラウザ上に存在する時間をコントロールしたい場合がよくあります。セッションクッキーの属性を変更するには、<code>:cookie-attrs</code> オプションを使います。</p>
 <pre>(def app
   (wrap-session handler {:cookie-attrs {:max-age 3600}}))</pre>
-<p>この場合、クッキーの最大寿命は3600秒（1時間）に設定されています。</p>
+<p>この場合、クッキーの最大寿命は 3600 秒（1 時間）に設定されています。</p>
 <p>また、HTTPS で保護されたサイトのセッション・クッキーが HTTP で漏洩しないようにするためにも使用できます。</p>
 <pre>(def app
   (wrap-session handler {:cookie-attrs {:secure true}}))</pre>
@@ -379,7 +379,7 @@
       wrap-params
       wrap-multipart-params))</pre>
 <p>アップロードされたファイルは、レスポンスの <code>:multipart-params</code> キーで確認できます。</p>
-<p>デフォルトでは、アップロードは一時ファイルに保存され、アップロードされてから1時間後に削除されます。これは<a href="https://ring-clojure.github.io/ring/ring.middleware.multipart-params.temp-file.html" target="_blank"> ring.middleware.multipart-params.temp-file/temp-file-store</a> 関数で処理されます。</p>
+<p>初期設定ではアップロードは一時ファイルに保存され、アップロードされてから 1 時間後に削除されます。これは<a href="https://ring-clojure.github.io/ring/ring.middleware.multipart-params.temp-file.html" target="_blank"> ring.middleware.multipart-params.temp-file/temp-file-store</a> 関数で処理されます。</p>
 <pre>curl -XPOST  &#34;http://localhost:3000&#34; -F file=@words.txt</pre>
 <p>これにより、リクエストの <code>:params</code> マップに <code>file</code> キーが追加されます。<code>:tempfile</code> はアップロードされたデータを格納する <code>java.io.File</code> オブジェクトです。これを使って、さらに必要な処理を行うことができます。</p>
 <pre>{...
@@ -389,7 +389,7 @@
            :tempfile     #object[java.io.File ...]
            :size         51}}
  ...}</pre>
-<p>上記の例に基づいて、Ring サーバが作成した tempfile をサーバ上の別の場所や恒久的な場所に保存したい場合は、bean を使って <code>tempfile</code> のパス情報を取得し、<code>io/copy</code> と <code>io/file</code> を組み合わせてファイルを読み、新しい場所に保存することができます。</p>
+<p>上記の例に基づいて、Ring サーバが作成した一時ファイルをサーバ上の別の場所や恒久的な場所に保存したい場合は、bean を使って <code>tempfile</code> のパス情報を取得し、<code>io/copy</code> と <code>io/file</code> を組み合わせてファイルを読み、新しい場所に保存することができます。</p>
 <pre>(def demo-ring-req
   {:params {&#34;file&#34;
             {:filename     &#34;words.txt&#34;}
@@ -435,7 +435,7 @@
 <ul>
 <li>設定の読み込み</li>
 <li>データベース接続</li>
-<li>Jettyサーバーの実行</li>
+<li>Jetty サーバーの実行</li>
 </ul>
 <p>この方法をサポートしているライブラリの一覧です。</p>
 <ul>
@@ -515,9 +515,9 @@
 <li><a href="https://github.com/hiredman/graft" target="_blank">graft</a> URI を Ring 用の関数に変換する</li>
 <li><a href="https://github.com/weavejester/clout" target="_blank">Clout</a> Ring リクエストマップの HTTP ルートマッチング</li>
 <li><a href="https://github.com/weavejester/ring-serve" target="_blank">ring-serve</a> REPL で開発用 Web サーバを動作させるためのライブラリ</li>
-<li><a href="https://github.com/laurentpetit/ring-java-servlet" target="_blank">ring-java-servlet</a> AOTなしでリングを使用するための汎用サーブレット（web.xmlでサーブレットを宣言するのみ）</li>
+<li><a href="https://github.com/laurentpetit/ring-java-servlet" target="_blank">ring-java-servlet</a> AOTなしでリングを使用するための汎用サーブレット（web.xml でサーブレットを宣言するのみ）</li>
 <li><a href="https://github.com/brehaut/necessary-evil" target="_blank">necessary-evil</a> XML-RPC サーバーとクライアントリクエストのためのライブラリ</li>
-<li><a href="https://github.com/mattdw/atompub" target="_blank">atompub</a> Weblog の編集などに利用できる Atom シンジケーション（フィード）とAtom Publishing Protocol のためのライブラリ</li>
+<li><a href="https://github.com/mattdw/atompub" target="_blank">atompub</a> Weblog の編集などに利用できる Atom シンジケーション（フィード）と Atom Publishing Protocol のためのライブラリ</li>
 <li><a href="https://github.com/killme2008/ring.velocity" target="_blank">ring.velocity</a> clojure で ring 用の velocity テンプレートをレンダリングするために設計された Clojure ライブラリ</li>
 </ul>
 
@@ -544,7 +544,7 @@
     
       <google-codelab-step label="標準ミドルウェア" duration="0">
         <p>Ring 自体に搭載されているミドルウェアをご紹介します。</p>
-<p>ring/ring-core:</p>
+<p><code>ring/ring-core</code></p>
 <ul>
 <li><a href="https://github.com/mmcgrana/ring/blob/master/ring-core/src/ring/middleware/cookies.clj#L124" target="_blank">wrap-cookies</a> (ring.middleware.cookies)</li>
 <li><a href="https://github.com/mmcgrana/ring/blob/master/ring-core/src/ring/middleware/file.clj#L14" target="_blank">wrap-file</a> (ring.middleware.file)</li>
@@ -556,7 +556,7 @@
 <li><a href="https://github.com/mmcgrana/ring/blob/master/ring-core/src/ring/middleware/params.clj#L54" target="_blank">wrap-params</a> (ring.middleware.params)</li>
 <li><a href="https://github.com/mmcgrana/ring/blob/master/ring-core/src/ring/middleware/session.clj#L6" target="_blank">wrap-session</a> (ring.middleware.session)</li>
 </ul>
-<p>ring/ring-devel:</p>
+<p><code>ring/ring-devel</code></p>
 <ul>
 <li><a href="https://github.com/mmcgrana/ring/blob/master/ring-devel/src/ring/middleware/lint.clj#L84" target="_blank">wrap-lint</a> (ring.middleware.lint)</li>
 <li><a href="https://github.com/mmcgrana/ring/blob/master/ring-devel/src/ring/middleware/reload.clj#L4" target="_blank">wrap-reload</a> (ring.middleware.reload)</li>
@@ -574,24 +574,24 @@
 <li>boot によるセットアップ</li>
 <li>モジュール・ライフサイクル・ライブラリを使用する 。</li>
 </ul>
-<p>第一のアプローチは、高速で、簡単にセットアップができます。<a href="https://github.com/ring-clojure/ring/tree/master/ring-devel" target="_blank">ring-devel</a> <a href="https://github.com/ring-clojure/ring/tree/master/ring-devel)%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AF%E3%80%81%E3%81%93%E3%81%AE%E7%9B%AE%E7%9A%84%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AB%E3%83%9F%E3%83%89%E3%83%AB%E3%82%A6%E3%82%A7%E3%82%A2%E3%82%92%E6%8F%90%E4%BE%9B%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82" target="_blank">は</a>、この目的のためにミドルウェアを提供しています。</p>
+<p>一つ目のアプローチは、高速で簡単にセットアップができます。<a href="https://github.com/ring-clojure/ring/tree/master/ring-devel" target="_blank">ring-devel</a> は、この目的のためにミドルウェアを提供しています。</p>
 <p>しかし、名前空間のリロードは、アプリケーションの状態をリロードしないという欠点があります。そのため、サーバーの再起動が必要になる場合があります。</p>
 <h2 is-upgraded><strong>lein-ringプラグインによるセットアップ</strong></h2>
-<p>Lein-Ringプラグインが一番わかりやすい方法です。2つのファイルを作成します。</p>
+<p>Lein-Ring プラグインが一番わかりやすい方法です。2つのファイルを作成します。</p>
 <ul>
-<li>src/sample.clj</li>
-<li>project.clj</li>
+<li><code>src/sample.clj</code></li>
+<li><code>project.clj</code></li>
 </ul>
-<p>src/sample.clj は <code>'Hello World'</code> を返すシンプルなサービスです。</p>
+<p><code>src/sample.clj</code> は <code>'Hello World'</code> を返すシンプルなサービスです。</p>
 <pre>(ns sample)
  
 (defn handler [request]
   {:status 200
    :headers {&#34;Content-Type&#34; &#34;text/plain&#34;}
    :body &#34;Hello world.&#34;})</pre>
-<p>プロジェクトファイル <em>project.clj</em> に <em>lein-ring</em> を追加し、リングハンドラを設定します。</p>
+<p>プロジェクトファイル <code>project.clj</code> に <code>lein-ring</code> を追加し、リングハンドラを設定します。</p>
 <pre>:ring {:handler sample/handler}</pre>
-<p>次は、最小限の <em>project.clj</em> です。</p>
+<p>次は、最小限の <code>project.clj</code> です。</p>
 <pre>(defproject lein-demo &#34;0.1.0-SNAPSHOT&#34;
   :dependencies [[org.clojure/clojure &#34;1.8.0&#34;]
                  [ring/ring-core &#34;1.6.3&#34;]
@@ -650,14 +650,14 @@
   (run-jetty dev-handler {:port 13000}))</pre>
 <p><code>clojure -A:dev -M:dev</code>でサーバーを起動します。<a href="http://localhost:13000" target="_blank">http://localhost:13000</a> にアクセスして、文字列 <code>"hello world!"</code> が表示されることを確認してください。 新しい Clojure CLI のバージョンでは、余分な <code>-A:dev</code> の部分は必要ありません。</p>
 <p>サーバーは、ソースディレクトリ内の変更されたファイルを自動的に再読み込みします。</p>
-<h2 is-upgraded><strong>bootによるセットアップ</strong></h2>
-<p>BootはClojureのためのビルドツールです。 <a href="https://boot-clj.github.io/" target="_blank">https://boot-clj.github.io/</a></p>
+<h2 is-upgraded><strong>boot によるセットアップ</strong></h2>
+<p>Boot は Clojure のためのビルドツールです。 <a href="https://boot-clj.github.io/" target="_blank">https://boot-clj.github.io/</a></p>
 <p>2つのファイルを作成します。</p>
 <ul>
-<li>build.boot</li>
-<li>src/sample.clj</li>
+<li><code>build.boot</code></li>
+<li><code>src/sample.clj</code></li>
 </ul>
-<p>最小限の build.boot の例です。</p>
+<p>最小限の <code>build.boot</code> の例です。</p>
 <pre>(set-env!
   :resource-paths #{&#34;src&#34;}
   :dependencies &#39;[[org.clojure/clojure &#34;1.8.0&#34;]
@@ -671,7 +671,7 @@
   (require &#39;[sample :as app])
   (apply (resolve &#39;app/run-dev-server) [(or port 3000)]))</pre>
 <p>リロードせずに <code>'Hello World'</code> を返すシンプルなサービスです</p>
-<p><em>src/sample.clj</em></p>
+<p><code>src/sample.clj</code></p>
 <pre>(ns sample
   (:require
    [ring.adapter.jetty :refer [run-jetty]]))
@@ -714,8 +714,8 @@
       <google-codelab-step label="プロダクションのためのセットアップ" duration="0">
         <p>lein ring プロジェクトを本番用にセットアップするには、多くのオプションがあります。</p>
 <ul>
-<li>Tomcat や Jetty のようなサーブレットエンジンへの WAR-archive デプロイ</li>
-<li>プラグイン lein-ring と ring-server</li>
+<li>Tomcat や Jetty のようなサーブレットエンジンへの WAR アーカイブのデプロイ</li>
+<li>プラグインである lein-ring や ring-server</li>
 <li>組み込み型 Jetty サーバ</li>
 <li>モジュールシステムの一部としての組み込み Jetty サーバ</li>
 <li>サードパーティー製ライブラリの使用</li>
@@ -726,7 +726,7 @@
 <pre>lein ring uberwar</pre>
 <p>作成したアーカイブをサーブレットエンジンにデプロイします。</p>
 <h2 is-upgraded><strong>Lein-ring plugin</strong></h2>
-<p>profile.clj に <a href="https://github.com/weavejester/lein-ring" target="_blank">lein-ring plugin</a> を追加する必要があります。</p>
+<p><code>profile.clj</code> に <a href="https://github.com/weavejester/lein-ring" target="_blank">lein-ring plugin</a> を追加する必要があります。</p>
 <pre>:plugins [[lein-ring &#34;0.12.1&#34;]]
 :ring {:handler sample/handler}</pre>
 <p>環境オプションを使って、ホットリロードとランダムなポート選択を無効にします。</p>
@@ -738,7 +738,7 @@
 <p>すでにコンパイルされた Clojure コードとすべてのライブラリを含む JAR ファイルを作成します。</p>
 <p>ステップ</p>
 <ul>
-<li>JAR の src/sample.clj エントリポイント</li>
+<li>JAR の <code>src/sample.clj</code> エントリポイント</li>
 <li>ビルド構成</li>
 </ul>
 <p>ハンドラで Jetty を起動するには、<code>ring.adapter.jetty</code>を使用します。</p>
@@ -756,7 +756,7 @@
 <p>AOT のコンパイルでは、<code>:gen-class</code> を使うことが重要です。</p>
 <p>次のステップは、ビルドツールに依存します。</p>
 <h3 is-upgraded><strong>Leiningenを使ったビルド</strong></h3>
-<p>project.cljに <code>:aot</code> と <code>:main</code> を追加する必要があります。</p>
+<p><code>project.clj</code> に <code>:aot</code> と <code>:main</code> を追加する必要があります。</p>
 <pre>(defproject lein-ring &#34;0.1.0-SNAPSHOT&#34;
   :dependencies [[org.clojure/clojure &#34;1.8.0&#34;]
                  [ring/ring-core &#34;1.6.3&#34;]
@@ -766,8 +766,8 @@
     :uberjar{
       :aot :all
       :main sample}})</pre>
-<h3 is-upgraded><strong>Bootを使ったビルド</strong></h3>
-<p>uberjar を作成するタスクを含むシンプルな build.boot です。</p>
+<h3 is-upgraded><strong>Boot を使ったビルド</strong></h3>
+<p>uberjar を作成するタスクを含むシンプルな <code>build.boot</code> です。</p>
 <pre>(set-env!
   :resource-paths #{&#34;src&#34;}
   :dependencies &#39;[[org.clojure/clojure &#34;1.8.0&#34;]
