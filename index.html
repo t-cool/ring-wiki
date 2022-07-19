@@ -567,17 +567,17 @@
       </google-codelab-step>
     
       <google-codelab-step label="開発のためのセットアップ" duration="0">
-        <p>開発ワークフローを最適化するための様々なオプションがあります。</p>
+        <p>様々なオプションにより、開発ワークフローを最適化できます。</p>
 <ul>
 <li>ソースファイルの変更時に名前空間をリロードする</li>
 <li>lein-ring プラグインによるセットアップ</li>
 <li>boot によるセットアップ</li>
 <li>モジュール・ライフサイクル・ライブラリを使用する 。</li>
 </ul>
-<p>一つ目のアプローチは、高速で簡単にセットアップができます。<a href="https://github.com/ring-clojure/ring/tree/master/ring-devel" target="_blank">ring-devel</a> は、この目的のためにミドルウェアを提供しています。</p>
-<p>しかし、名前空間のリロードは、アプリケーションの状態をリロードしないという欠点があります。そのため、サーバの再起動が必要になる場合があります。</p>
+<p>1 つ目のアプローチは、高速で簡単にセットアップができます。<a href="https://github.com/ring-clojure/ring/tree/master/ring-devel" target="_blank">ring-devel</a> は、この目的のためにミドルウェアを提供しています。</p>
+<p>しかし、名前空間のリロードはアプリケーションの状態をリロードしないという欠点があり、サーバの再起動が必要になる場合があります。</p>
 <h2 is-upgraded><strong>lein-ring プラグインによるセットアップ</strong></h2>
-<p>lein-ring プラグインが一番わかりやすい方法です。2つのファイルを作成します。</p>
+<p>lein-ring プラグインが一番わかりやすい方法です。2 つのファイルを作成します。</p>
 <ul>
 <li><code>src/sample.clj</code></li>
 <li><code>project.clj</code></li>
