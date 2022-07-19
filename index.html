@@ -83,7 +83,7 @@
 <p>標準的なキーは次の通りです。</p>
 <ul>
 <li><code>:server-port</code> リクエストを処理するためのポートです。</li>
-<li><code>:server-name</code> 解決されたサーバー名、またはサーバーの IP アドレスです。</li>
+<li><code>:server-name</code> 解決されたサーバ名、またはサーバの IP アドレスです。</li>
 <li><code>:remote-addr</code> リクエストを送信したクライアントまたは最後のプロキシの IP アドレスです。</li>
 <li><code>:uri</code> リクエストの URI (ドメイン名の後のフルパス)です。</li>
 <li><code>:query-string</code> クエリ文字列があれば、それを入力します。</li>
@@ -435,7 +435,7 @@
 <ul>
 <li>設定の読み込み</li>
 <li>データベース接続</li>
-<li>Jetty サーバーの実行</li>
+<li>Jetty サーバの実行</li>
 </ul>
 <p>この方法をサポートしているライブラリの一覧です。</p>
 <ul>
@@ -516,7 +516,7 @@
 <li><a href="https://github.com/weavejester/clout" target="_blank">Clout</a> Ring リクエストマップの HTTP ルートマッチング</li>
 <li><a href="https://github.com/weavejester/ring-serve" target="_blank">ring-serve</a> REPL で開発用 Web サーバを動作させるためのライブラリ</li>
 <li><a href="https://github.com/laurentpetit/ring-java-servlet" target="_blank">ring-java-servlet</a> AOTなしでリングを使用するための汎用サーブレット（web.xml でサーブレットを宣言するのみ）</li>
-<li><a href="https://github.com/brehaut/necessary-evil" target="_blank">necessary-evil</a> XML-RPC サーバーとクライアントリクエストのためのライブラリ</li>
+<li><a href="https://github.com/brehaut/necessary-evil" target="_blank">necessary-evil</a> XML-RPC サーバとクライアントリクエストのためのライブラリ</li>
 <li><a href="https://github.com/mattdw/atompub" target="_blank">atompub</a> Weblog の編集などに利用できる Atom シンジケーション（フィード）と Atom Publishing Protocol のためのライブラリ</li>
 <li><a href="https://github.com/killme2008/ring.velocity" target="_blank">ring.velocity</a> clojure で ring 用の velocity テンプレートをレンダリングするために設計された Clojure ライブラリ</li>
 </ul>
@@ -575,7 +575,7 @@
 <li>モジュール・ライフサイクル・ライブラリを使用する 。</li>
 </ul>
 <p>一つ目のアプローチは、高速で簡単にセットアップができます。<a href="https://github.com/ring-clojure/ring/tree/master/ring-devel" target="_blank">ring-devel</a> は、この目的のためにミドルウェアを提供しています。</p>
-<p>しかし、名前空間のリロードは、アプリケーションの状態をリロードしないという欠点があります。そのため、サーバーの再起動が必要になる場合があります。</p>
+<p>しかし、名前空間のリロードは、アプリケーションの状態をリロードしないという欠点があります。そのため、サーバの再起動が必要になる場合があります。</p>
 <h2 is-upgraded><strong>lein-ring プラグインによるセットアップ</strong></h2>
 <p>lein-ring プラグインが一番わかりやすい方法です。2つのファイルを作成します。</p>
 <ul>
@@ -599,10 +599,10 @@
                  [ring/ring-devel &#34;1.6.3&#34;]]
   :ring {:handler sample/handler}
   :plugins [[lein-ring &#34;0.12.5&#34;]])</pre>
-<p>開発用サーバーを起動します。</p>
+<p>開発用サーバを起動します。</p>
 <pre>​​lein ring server</pre>
-<p><a href="http://localhost:3000/" target="_blank">http://localhost:3000</a> のサーバーをご覧ください。</p>
-<p>サーバーは、ソースディレクトリ内の変更されたファイルを自動的に再読み込みします。</p>
+<p><a href="http://localhost:3000/" target="_blank">http://localhost:3000</a> のサーバをご覧ください。</p>
+<p>サーバは、ソースディレクトリ内の変更されたファイルを自動的に再読み込みします。</p>
 <h2 is-upgraded><strong>Clojure deps と CLI を使ったセットアップ</strong></h2>
 <p>Clojure は推移依存性グラフの展開とクラスパスの作成のためのコマンドラインツールを提供します。詳細は <a href="https://clojure.org/guides/deps_and_cli" target="_blank">https://clojure.org/guides/deps_and_cli</a> をご覧ください。</p>
 <p>次のようなプロジェクトのファイル構成を作成します。</p>
@@ -625,7 +625,7 @@
   {:extra-paths [&#34;dev&#34;]
    :extra-deps {ring/ring-devel {:mvn/version &#34;1.6.3&#34;}}
    :main-opts [&#34;-m&#34; &#34;hotreload&#34;]}}}</pre>
-<p>本番サーバーを作成します。</p>
+<p>本番サーバを作成します。</p>
 <p><code>src/sample/server.clj</code></p>
 <pre>(ns sample.server
   (:require [ring.adapter.jetty :refer [run-jetty]])
@@ -637,7 +637,7 @@
 (defn -main [&amp; args]
   (run-jetty handler {:port 3000}))</pre>
 <p><code>clojure -M -m sample.server</code> でサーバを起動します。<a href="http://localhost:3000" target="_blank">http://localhost:3000</a> にアクセスし、文字列 <code>"hello world!"</code> が表示されることを確認します。</p>
-<p>開発用サーバーを作成します。</p>
+<p>開発用サーバを作成します。</p>
 <p><code>dev/hotreload.clj</code></p>
 <pre>(ns hotreload
   (:require [ring.adapter.jetty :refer [run-jetty]]
@@ -648,8 +648,8 @@
   (wrap-reload #&#39;handler))
 (defn -main [&amp; args]
   (run-jetty dev-handler {:port 13000}))</pre>
-<p><code>clojure -A:dev -M:dev</code>でサーバーを起動します。<a href="http://localhost:13000" target="_blank">http://localhost:13000</a> にアクセスして、文字列 <code>"hello world!"</code> が表示されることを確認してください。 新しい Clojure CLI のバージョンでは、余分な <code>-A:dev</code> の部分は必要ありません。</p>
-<p>サーバーは、ソースディレクトリ内の変更されたファイルを自動的に再読み込みします。</p>
+<p><code>clojure -A:dev -M:dev</code> でサーバを起動します。<a href="http://localhost:13000" target="_blank">http://localhost:13000</a> にアクセスして、文字列 <code>"hello world!"</code> が表示されることを確認してください。 新しい Clojure CLI のバージョンでは、余分な <code>-A:dev</code> の部分は必要ありません。</p>
+<p>サーバは、ソースディレクトリ内の変更されたファイルを自動的に再読み込みします。</p>
 <h2 is-upgraded><strong>boot によるセットアップ</strong></h2>
 <p>Boot は Clojure のためのビルドツールです。 <a href="https://boot-clj.github.io/" target="_blank">https://boot-clj.github.io/</a></p>
 <p>2つのファイルを作成します。</p>
@@ -686,7 +686,7 @@
   (run-jetty handler {:port port}))</pre>
 <p>boot のタスクを確認して見ましょう。</p>
 <pre>boot dev -h</pre>
-<p>サーバーを起動するには次のようにします。</p>
+<p>サーバを起動するには次のようにします。</p>
 <pre>boot dev</pre>
 <p><a href="http://localhost:3000/" target="_blank">http://localhost:3000</a> をご覧ください。</p>
 <p>次に、ホットリロードを追加します。<code>build.boot</code> の <code>dependencies</code> に <code>ring/ring-devel</code> が含まれていることを確認します。ハンドラを <code>wrap-reload</code> ハンドラに指定します。</p>
@@ -706,7 +706,7 @@
 (defn run-dev-server
   [port]
   (run-jetty dev-handler {:port port}))</pre>
-<p>サーバーを再起動し、 <a href="http://localhost:3000/" target="_blank">http://localhost:3000</a> を開きます。これで、サーバーはソースディレクトリ内の変更されたファイルを自動的に再読み込みします。</p>
+<p>サーバを再起動し、 <a href="http://localhost:3000/" target="_blank">http://localhost:3000</a> を開きます。サーバはソースディレクトリ内の変更されたファイルを自動的に再読み込みします。</p>
 
 
       </google-codelab-step>
@@ -725,13 +725,13 @@
 <p>以下のコマンドでアーカイブを作成します。</p>
 <pre>lein ring uberwar</pre>
 <p>作成したアーカイブをサーブレットエンジンにデプロイします。</p>
-<h2 is-upgraded><strong>Lein-ring plugin</strong></h2>
+<h2 is-upgraded><strong>lein-ring plugin</strong></h2>
 <p><code>profile.clj</code> に <a href="https://github.com/weavejester/lein-ring" target="_blank">lein-ring plugin</a> を追加する必要があります。</p>
 <pre>:plugins [[lein-ring &#34;0.12.1&#34;]]
 :ring {:handler sample/handler}</pre>
 <p>環境オプションを使って、ホットリロードとランダムなポート選択を無効にします。</p>
 <pre>LEIN_NO_DEV</pre>
-<p>サーバーを起動します。</p>
+<p>サーバを起動します。</p>
 <pre>LEIN_NO_DEV=true lein ring server-headless</pre>
 <p>詳しい情報は <a href="https://github.com/weavejester/ring-server" target="_blank">https://github.com/weavejester/ring-server</a> をご覧ください。</p>
 <h2 is-upgraded><strong>組み込まれた Jetty server</strong></h2>
