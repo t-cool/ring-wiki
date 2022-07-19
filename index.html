@@ -84,7 +84,7 @@
 <ul>
 <li><code>:server-port</code> リクエストを処理するためのポートです。</li>
 <li><code>:server-name</code> 解決されたサーバー名、またはサーバーの IP アドレスです。</li>
-<li><code>:remote-addr</code> リクエストを送信したクライアントまたは最後のプロキシのIPアドレスです。</li>
+<li><code>:remote-addr</code> リクエストを送信したクライアントまたは最後のプロキシの IP アドレスです。</li>
 <li><code>:uri</code> リクエストの URI (ドメイン名の後のフルパス)です。</li>
 <li><code>:query-string</code> クエリ文字列があれば、それを入力します。</li>
 <li><code>:scheme</code> トランスポートプロトコルです。<code>:http</code> または <code>:https</code> のいずれかになります。</li>
@@ -576,8 +576,8 @@
 </ul>
 <p>一つ目のアプローチは、高速で簡単にセットアップができます。<a href="https://github.com/ring-clojure/ring/tree/master/ring-devel" target="_blank">ring-devel</a> は、この目的のためにミドルウェアを提供しています。</p>
 <p>しかし、名前空間のリロードは、アプリケーションの状態をリロードしないという欠点があります。そのため、サーバーの再起動が必要になる場合があります。</p>
-<h2 is-upgraded><strong>lein-ringプラグインによるセットアップ</strong></h2>
-<p>Lein-Ring プラグインが一番わかりやすい方法です。2つのファイルを作成します。</p>
+<h2 is-upgraded><strong>lein-ring プラグインによるセットアップ</strong></h2>
+<p>lein-ring プラグインが一番わかりやすい方法です。2つのファイルを作成します。</p>
 <ul>
 <li><code>src/sample.clj</code></li>
 <li><code>project.clj</code></li>
@@ -603,8 +603,8 @@
 <pre>​​lein ring server</pre>
 <p><a href="http://localhost:3000/" target="_blank">http://localhost:3000</a> のサーバーをご覧ください。</p>
 <p>サーバーは、ソースディレクトリ内の変更されたファイルを自動的に再読み込みします。</p>
-<h2 is-upgraded><strong>Clojure depsとCLIを使ったセットアップ</strong></h2>
-<p>Clojureは推移依存性グラフの展開とクラスパスの作成のためのコマンドラインツールを提供します。詳細は <a href="https://clojure.org/guides/deps_and_cli" target="_blank">https://clojure.org/guides/deps_and_cli</a> をご覧ください。</p>
+<h2 is-upgraded><strong>Clojure deps と CLI を使ったセットアップ</strong></h2>
+<p>Clojure は推移依存性グラフの展開とクラスパスの作成のためのコマンドラインツールを提供します。詳細は <a href="https://clojure.org/guides/deps_and_cli" target="_blank">https://clojure.org/guides/deps_and_cli</a> をご覧ください。</p>
 <p>次のようなプロジェクトのファイル構成を作成します。</p>
 <pre>.
 ├── deps.edn
